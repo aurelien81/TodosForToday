@@ -1,0 +1,46 @@
+body {
+  font-family: Lato, sans-serif;
+  background-color: #D2E4E3;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    /*border: dashed 1px black;*/
+    position: relative;
+}
+  
+.listContainer {
+    background-color: #ffffff;
+    border: 1px dashed #000000;
+    position: absolute;
+    min-width: 300px;
+    max-width: 600px;
+    width: 450px;
+    height: auto;
+    top: 25%;
+    left: 50%;
+    margin: 0 0 0 -225px;
+    padding: 10px;
+}
+
+.listContainer h1 {
+    text-align: center;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+input[type=text] {
+    height: 2em;
+    width: 70%;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    height: 2em;
+    width: 20%;
+}

@@ -4,25 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Supporter ToDos</title>
-  <style>
-    body {
-      font-family: Avenir, sans-serif;
-    }
-	.completed {
-      text-decoration: line-through;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <h1>My To-Do List</h1>
-
-  <input type="text" id="taskInput" placeholder="Add a new task">
-  <button onclick="addTask()">Add</button>
-
-  <ul id="taskList" onclick="toggleTask(event)">
-    <!-- List items will be added dynamically here -->
-  </ul>
+	<div class="container">
+		<div class="listContainer">
+  			<h1>My To-Do List (<span id="counter">0</span>)</h1>
+			<div class="inputField">
+				<input type="text" id="taskInput" placeholder="Add a new task" onkeydown="checkEnter(event)">
+				<button onclick="addTask()">Add</button>
+			</div>
+			<div class="outputField">
+  				<ul id="taskList" onclick="toggleTask(event)">
+    			<!-- List items will be added dynamically here -->
+  				</ul>
+				<ul id="dangerZone" onclick="toggleTask(event)">
+				<!-- List items will be added dynamically here -->
+				</ul>
+			</div>
+		</div>
+	</div>
 
   <script src="script.js"></script>
 </body>
