@@ -30,6 +30,8 @@ body {
 
 .completed {
   text-decoration: line-through;
+  opacity: 1;
+  transition: opacity 0.75s ease-out; /* Add a fade-out effect with a 0.5s duration */
 }
 
 input[type=text] {
@@ -43,4 +45,25 @@ input[type=text] {
 button {
     height: 2em;
     width: 20%;
+    cursor: pointer;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    border: 1px dashed black;
+    padding: 10px;
+    margin: 5px 0;
+}
+
+li {
+    cursor: pointer;
+}
+
+.dangerZone {
+    color: red;
 }
