@@ -1,3 +1,12 @@
+@keyframes popUp {
+    from {
+        transform: translateY(100px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
 body {
   font-family: Lato, sans-serif;
   background-color: #D2E4E3;
@@ -100,3 +109,8 @@ li {
     bottom: 0;
     right: -50px;
 }
+
+.popUpAnimation {
+    animation: popUp 0.25s ease-out;
+}
+

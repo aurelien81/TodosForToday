@@ -83,7 +83,7 @@ function showPopUp() {
     let popUpContainer = document.getElementById("popUpContainer");
     popUpContainer.style.display = "block";
     // Optional: Add animation or transitions for a smoother effect
-    popUpContainer.classList.add("pop-up-animation");
+    popUpImage.classList.add("popUpAnimation");
     // Hide the pop-up after a certain duration (e.g., 3 seconds)
     setTimeout(() => {
         popUpContainer.style.display = "none";
