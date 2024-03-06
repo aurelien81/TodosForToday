@@ -1,53 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="style.css">
-	<script src="app.js"></script>
-	<title>Waifus ToDos List</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supporter ToDos</title>
+  <style>
+    body {
+      font-family: Avenir, sans-serif;
+    }
+	.completed {
+      text-decoration: line-through;
+    }
+  </style>
 </head>
 <body>
-	<header class="bg-success text-white p-5">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-md-12 col-sm-12">
-					<font face="Merriweather"
-						size="11" color="black">
-						<strong>ToDo List</strong>
-					</font>
-				</div>
-			</div>
-		</div>
-	</header>
-	<div class="container mt-3">
 
-		<h2>Add Items</h2>
-		<label id="lblsuccess" class="text-success"
-				style="display: none;">
-		</label>
-		
-		<form id="addForm">
-			<div class="row">
-				<div class="col-lg-7 col-md-7 col-sm-7">
+  <h1>My To-Do List</h1>
 
-					<input type="text" onkeyup="toggleButton(this, 'submit')"
-						class="form-control" id="item">
-				</div>
+  <input type="text" id="taskInput" placeholder="Add a new task">
+  <button onclick="addTask()">Add</button>
 
-				<div class="col-lg-5 col-md-5 col-sm-5">
-				<input type="submit" class="btn btn-dark"
-						id="submit" value="Submit" disabled>
-				</div>
-			</div>
-		</form>
+  <ul id="taskList" onclick="toggleTask(event)">
+    <!-- List items will be added dynamically here -->
+  </ul>
 
-		<h3 class="mt-4">Tasks</h3>
-
-		<form id="addForm">
-			<ul class="list-group" id="items"></ul>
-		</form>
-	</div>
+  <script src="script.js"></script>
 </body>
-
 </html>

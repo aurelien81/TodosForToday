@@ -1,3 +1,3 @@
 # Supporter ToDos & Tracking
 
-I started with code copied from a tutorial on 'geeks for geeks' but I don't actually understand what I am looking at so I will go back to freeCodeCamp for study. I need to get more html/css learning done and then I will do the todo list tutorial.
+Starting from the beginning. I am creating a very simple todo list so that I can focus on the presentation. Once I have the simplest version of the app working, I can move on to add more bells and whistles.
