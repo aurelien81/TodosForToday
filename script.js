@@ -1,5 +1,6 @@
 let taskCounter = 0;
 const taskCounterText = document.querySelector("#counter");
+const messagesText = document.querySelector("#supporterMessages");
 
 function addTask() {
     // Get the input value
@@ -22,6 +23,8 @@ function addTask() {
     taskCounter += 1;
     taskCounterText.innerText = taskCounter;
     updateStyling();
+    showPopUp();
+    showMessage();
 }
 
   function toggleTask(event) {
@@ -42,7 +45,7 @@ function addTask() {
     }
   }
   
-  function checkEnter(event) {
+function checkEnter(event) {
     // Check if the pressed key is 'Enter'
     if (event.key === "Enter") {
       // Prevent the default form submission
@@ -50,9 +53,9 @@ function addTask() {
       // Call the addTask function
       addTask();
     }
-  }
+}
 
-  function updateStyling() {
+function updateStyling() {
     // Apply red text style to subsequent tasks beyond the first five
     let taskList = document.getElementById("taskList");
     let tasks = taskList.children;
@@ -60,9 +63,9 @@ function addTask() {
     for (let i = 0; i < tasks.length; i++) {
       tasks[i].classList.toggle("dangerZone", i >= 5 && i >= taskCounter);
     }
-  }
+}
 
-  function updateStyling() {
+function updateStyling() {
     // Apply red text style to subsequent tasks beyond the first five
     let taskList = document.getElementById("taskList");
     let tasks = taskList.children;
@@ -72,5 +75,25 @@ function addTask() {
         } else {
           tasks[i].classList.remove("dangerZone");
         }
-      }
     }
+}
+
+function showPopUp() {
+    // Display the pop-up container
+    let popUpContainer = document.getElementById("popUpContainer");
+    popUpContainer.style.display = "block";
+    // Optional: Add animation or transitions for a smoother effect
+    popUpContainer.classList.add("pop-up-animation");
+    // Hide the pop-up after a certain duration (e.g., 3 seconds)
+    setTimeout(() => {
+        popUpContainer.style.display = "none";
+    }, 3000);
+}
+
+function showMessage() {
+    messagesText.innerText = "Well Done!";
+    messagesText.style.display = "block";
+    setTimeout(() => {
+        messagesText.style.display = "none";
+    }, 3000);
+}

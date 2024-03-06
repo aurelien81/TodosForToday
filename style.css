@@ -17,8 +17,9 @@ body {
     min-width: 300px;
     max-width: 600px;
     width: 450px;
+    min-height: 500px;
     height: auto;
-    top: 25%;
+    top: 15%;
     left: 50%;
     margin: 0 0 0 -225px;
     padding: 10px;
@@ -26,6 +27,22 @@ body {
 
 .listContainer h1 {
     text-align: center;
+}
+
+#supporterMessages {
+    display: none;
+    background: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    margin: 0 0 0 -10px;
+    padding: 10px;
+    position: absolute;
+    width: 96%;
+    min-height: 4em;
+    bottom: 0;
+}
+
+#supporterMessages p {
+    padding: 5px;
 }
 
 .completed {
@@ -50,7 +67,7 @@ button {
 
 ul {
     list-style-type: none;
-    margin: 0;
+    margin-top: 20px;
     padding: 0;
 }
 
@@ -66,4 +83,19 @@ li {
 
 .dangerZone {
     color: red;
+}
+
+/* Styling for the pop-up container */
+#popUpContainer {
+    display: none;
+}
+  
+/* Styling for the pop-up image */
+#popUpImage {
+    max-width: 100%;
+    max-height: 400px; /* Adjust the maximum height as needed */
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
