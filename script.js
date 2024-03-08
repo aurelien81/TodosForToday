@@ -23,8 +23,6 @@ function addTask() {
     taskCounter += 1;
     taskCounterText.innerText = taskCounter;
     updateStyling();
-    showPopUp();
-    showMessage();
 }
 
   function toggleTask(event) {
@@ -40,6 +38,8 @@ function addTask() {
         taskCounter -= 1
         taskCounterText.innerText = taskCounter
         updateStyling();
+        showPopUp();
+        showMessage();
         }, 750); // Duration of the fade-out effect (in milliseconds)
       }
     }
