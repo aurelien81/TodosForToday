@@ -14,13 +14,26 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
         calloutState: calloutState,
         greet() {
             return `Hello! My name is ${name}. Happy to meet you!`;
+        },
+        wellDoneMessage() {
+            return `Well done! Keep going!`;
+        },
+        concernedMessage () {
+            return `Is everything ok? You still have a lot to do. Maybe review your targets for today?`
+        },
+        callOutMessage () {
+            return `Careful! Creating too many tasks can be stressful and set you up for failure!`
         }
     }
 }
 
-const kana = createSupporter('Kana', )
+const kana = createSupporter('Kana',
+                            'assets/kana/kana_base.png',
+                            'assets/kana/kana_wellDone.png',
+                            'assets/kana/kana_base.png',
+                            'assets/kana/kana_base.png')
 
-
+                            
 // add a task
 function addTask() {
     if (inputBox.value === '') {
