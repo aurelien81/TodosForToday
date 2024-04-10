@@ -1,10 +1,14 @@
 const inputBox = document.getElementById('input-box');
 const listContainer = document.getElementById('list-container');
 const taskCounterText = document.querySelector("#counter");
+const themeToggle = document.getElementById('theme-toggle')
+const themesList = ['light', 'dark', 'dragon']
 // const messagesText = document.querySelector("#supporterMessages");
 let taskCounter = 0;
+let themeSelector = 0;
 
-// supporters
+
+// supporters factory function
 function createSupporter(name, baseState, wellDoneState, concernedState, calloutState) {
     return {
         name: name,
@@ -27,13 +31,28 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
     }
 }
 
+// list of supporters
 const kana = createSupporter('Kana',
                             'assets/kana/kana_base.png',
                             'assets/kana/kana_wellDone.png',
                             'assets/kana/kana_base.png',
                             'assets/kana/kana_base.png')
 
-                            
+// change theme
+themeToggle.addEventListener("click", toggleTheme);
+
+function toggleTheme() {
+    let currentTheme = document.documentElement.getAttribute("data-theme");
+    if (themeSelector == themesList.length - 1) {
+        themeSelector = 0;
+        document.documentElement.setAttribute('data-theme', themesList[0]);
+    } else {
+        themeSelector++;
+        document.documentElement.setAttribute('data-theme', themesList[themeSelector]);
+    }
+    themeToggle.innerHTML = themeSelector + 1;
+}
+
 // add a task
 function addTask() {
     if (inputBox.value === '') {
@@ -42,10 +61,17 @@ function addTask() {
     } else {
         let li = document.createElement("li");
         li.innerHTML = inputBox.value;
+        li.classList.add("is-size-5");
+        li.classList.add("is-flex");
+        li.classList.add("is-justify-content-space-between");
         listContainer.appendChild(li);
-        let span = document.createElement("span");
-        span.innerHTML = "\u00d7";
-        li.appendChild(span);
+        let deleteButton = document.createElement("button");
+        // span.innerHTML = "\u00d7";
+        deleteButton.classList.add("delete");
+        deleteButton.classList.add("is-small");
+        deleteButton.classList.add("delete-theme");
+        deleteButton.classList.add("mt-2");
+        li.appendChild(deleteButton);
     }
     inputBox.value = '';
     saveData();
@@ -63,7 +89,7 @@ listContainer.addEventListener("click", e => {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
         saveData();
-    } else if (e.target.tagName === "SPAN") {
+    } else if (e.target.tagName === "BUTTON") {
         setTimeout(() => {
             e.target.parentElement.remove();
             // taskCounter -= 1;

@@ -4,19 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supporter Todo-App</title>
-    <link rel="stylesheet" href="styles.css">
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
+    <link rel="stylesheet" href="notBulma.css">
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <div class="todo-app">
-            <h2>To-Do List <span id="counter"></span></h2>
-            <div class="row">
-                <input type="text" id="input-box" placeholder="Add your text">
-                <button class="add-button" onclick="addTask()">Add</button>
+<body class="theme-light">
+    <div class="container is-flex is-justify-content-center is-align-items-center">
+        <div class="todo-app box px-5 py-3">
+            <div class="navbar is-flex is-justify-content-space-between is-align-items-center px-2">
+                <div class="theme-toggle-zero is-flex is-justify-content-center is-align-items-center" id="theme-toggle">1</div>
+                <h1 class="my-title my-2">To-Do List <span id="counter">(0)</span></h1>
+                <div class="info-toggle is-flex is-justify-content-center is-align-items-center mr-3">i</div>
             </div>
-            <ul id="list-container">
-            </ul>
-            <button class="clear-button" onclick="clearAllTasks()">Clear All</button>
+            <div class="row is-flex is-align-items-center is-justify-content-space-between">
+                <input type="text" class="input" id="input-box" placeholder="Add your text">
+                <button class="add-button button ml-2" onclick="addTask()">Add</button>
+            </div>
+            <ul class="my-2 mr-4" id="list-container"></ul>
+            <div class="buttons has-addons is-centered p-2">
+                <button class="button is-small" id="exportMark">Export All</button>
+                <button class="button is-small clear-button" onclick="clearAllTasks()">Clear All</button>
+            </div>
         </div>
     </div>
 
