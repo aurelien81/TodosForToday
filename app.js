@@ -1,9 +1,9 @@
 const inputBox = document.getElementById('input-box');
+const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
 const taskCounterText = document.querySelector("#counter");
 const themeToggle = document.getElementById('theme-toggle')
 const themesList = ['light', 'dark', 'dragon']
-// const messagesText = document.querySelector("#supporterMessages");
 let taskCounter = 0;
 let themeSelector = 0;
 
@@ -51,7 +51,21 @@ function toggleTheme() {
         document.documentElement.setAttribute('data-theme', themesList[themeSelector]);
     }
     themeToggle.innerHTML = themeSelector + 1;
+    saveTheme();
 }
+
+// save theme on the local storage
+function saveTheme() {
+    localStorage.setItem("theme", themeSelector);
+}
+
+// retrieve the tasks from the local storage and display them
+function loadTheme() {
+    themeSelector = localStorage.getItem("theme");
+    document.documentElement.setAttribute('data-theme', themesList[themeSelector]);
+}
+
+loadTheme();
 
 // add a task
 function addTask() {
@@ -59,19 +73,14 @@ function addTask() {
         // let's replace this by a message from the supporter later
         alert("You must write something!");
     } else {
-        let li = document.createElement("li");
+        let li = document.createElement("LI");
         li.innerHTML = inputBox.value;
-        li.classList.add("is-size-5");
-        li.classList.add("is-flex");
-        li.classList.add("is-justify-content-space-between");
         listContainer.appendChild(li);
-        let deleteButton = document.createElement("button");
-        // span.innerHTML = "\u00d7";
-        deleteButton.classList.add("delete");
-        deleteButton.classList.add("is-small");
-        deleteButton.classList.add("delete-theme");
-        deleteButton.classList.add("mt-2");
-        li.appendChild(deleteButton);
+        let span = document.createElement("SPAN");
+        span.innerHTML = "\u00d7";
+        li.appendChild(span);
+        taskCounter++;
+        taskCounterText.innerText = taskCounter;
     }
     inputBox.value = '';
     saveData();
@@ -84,16 +93,19 @@ inputBox.addEventListener('keypress', e => {
     }
 })
 
+// click on the check to add the task
+inputCheck.addEventListener('click', e => {addTask();})
+
 // check or uncheck a task
 listContainer.addEventListener("click", e => {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
         saveData();
-    } else if (e.target.tagName === "BUTTON") {
+    } else if (e.target.tagName === "SPAN") {
         setTimeout(() => {
             e.target.parentElement.remove();
-            // taskCounter -= 1;
-            // taskCounterText.innerText = taskCounter;
+            taskCounter--;
+            taskCounterText.innerText = taskCounter;
             // showPopUp();
             // showMessage();
             saveData();
@@ -105,10 +117,12 @@ listContainer.addEventListener("click", e => {
 function clearAllTasks() {
     let allTasks = document.querySelectorAll('li');
     allTasks.forEach(li => li.remove());
+    taskCounter = 0;
+    taskCounterText.innerText = taskCounter;
     saveData();
 }
 
-// save date on the local storage
+// save data on the local storage
 function saveData() {
     localStorage.setItem("data", listContainer.innerHTML);
 }
@@ -120,22 +134,31 @@ function showTask() {
 
 showTask();
 
-// function showPopUp() {
-//     // Display the pop-up container
-//     let popUpContainer = document.getElementById("popUpContainer");
-//     popUpContainer.style.display = "block";
-//     // Optional: Add animation or transitions for a smoother effect
-//     popUpImage.classList.add("popUpAnimation");
-//     // Hide the pop-up after a certain duration (e.g., 3 seconds)
-//     setTimeout(() => {
-//         popUpContainer.style.display = "none";
-//     }, 3000);
-// }
+// Bottom nav and settings management
 
-// function showMessage() {
-//     messagesText.innerText = "Well Done!";
-//     messagesText.style.display = "block";
-//     setTimeout(() => {
-//         messagesText.style.display = "none";
-//     }, 3000);
-// }
+window.onload = () => {
+    const buttons = document.querySelectorAll(".multi-button button");
+    buttons.forEach((button, index) => {
+        button.addEventListener("mouseover", () => {
+            if (index > 0) {
+                const prevTooltip = buttons[index-1].querySelector("div");
+                prevTooltip.classList.remove("animate-right");
+                prevTooltip.classList.add("animate-left");
+            }
+            if (index < buttons.length - 1) {
+                const nextTooltip = buttons[index+1].querySelector("div");
+                nextTooltip.classList.remove("animate-left");
+                nextTooltip.classList.add("animate-right");
+            }
+        });
+    });
+}
+
+// Open the sidenav
+function openNav() {
+    document.getElementById("mySidenav").style.width = "100%";
+}
+// Close/hide the sidenav
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}

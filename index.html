@@ -4,27 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supporter Todo-App</title>
-    <!-- <link rel="stylesheet" href="styles.css"> -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.0/css/bulma.min.css">
-    <link rel="stylesheet" href="notBulma.css">
-    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-<body class="theme-light">
-    <div class="container is-flex is-justify-content-center is-align-items-center">
-        <div class="todo-app box px-5 py-3">
-            <div class="navbar is-flex is-justify-content-space-between is-align-items-center px-2">
-                <div class="theme-toggle-zero is-flex is-justify-content-center is-align-items-center" id="theme-toggle">1</div>
-                <h1 class="my-title my-2">To-Do List <span id="counter">(0)</span></h1>
-                <div class="info-toggle is-flex is-justify-content-center is-align-items-center mr-3">i</div>
+<body>
+    <div class="container flex-align-items-center">
+        <div class="todo-app">
+            <div id="mySidenav" class="sidenav">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <p>Themes</p>
+                <div class="theme-selectors-container">
+                    <div class="theme-selectors light-theme-selector"></div>
+                    <div class="theme-selectors dark-theme-selector"></div>
+                    <div class="theme-selectors dragon-theme-selector"></div>
+                </div>
+                <p>Services</p>
+                <p>Clients</p>
+                <p>Contact</p>
             </div>
-            <div class="row is-flex is-align-items-center is-justify-content-space-between">
-                <input type="text" class="input" id="input-box" placeholder="Add your text">
-                <button class="add-button button ml-2" onclick="addTask()">Add</button>
+            <div class="title-bar flex-align-items-center">
+                <div class="theme-toggle-preview flex-align-items-center" id="theme-toggle">1</div>
+                <h1 class="my-title">To<span>Dos</span> for To<span>Day</span></span> (<span id="counter">0</span>)</h1>
+                <div class="theme-toggle-preview flex-align-items-center" id="theme-toggle">0</div>
             </div>
-            <ul class="my-2 mr-4" id="list-container"></ul>
-            <div class="buttons has-addons is-centered p-2">
-                <button class="button is-small" id="exportMark">Export All</button>
-                <button class="button is-small clear-button" onclick="clearAllTasks()">Clear All</button>
+            <div class="row flex-align-items-center">
+                <label for="inp" class="inp">
+                    <input type="text" id="input-box" placeholder="Enter your task" pattern=".{6,}" required>
+                    <svg width="280px" height="18px" viewBox="0 0 280 18" class="inp-border">
+                        <path d="M0,12 L223.166144,12 C217.241379,12 217.899687,12 225.141066,12 C236.003135,12 241.9279,12 249.827586,12 C257.727273,12 264.639498,12 274.514107,12 C281.097179,12 281.755486,12 276.489028,12"></path>
+                    </svg>
+                    <svg width="14px" height="12px" viewBox="0 0 14 12" class="inp-check" id="add-task-check">
+                        <path d="M1 7 5.5 11 L13 1"></path>
+                    </svg>
+                </label>
+            </div>
+            <ul id="list-container"></ul>
+            <div class="nav-container">
+                <div class="multi-button" id="bottom">
+                    <button>
+                        <i class="material-symbols-outlined">markdown</i>
+                        <div class="animate-normal">copy tasks</div>
+                    </button>
+                    <button onclick="openNav()">
+                        <i class="material-symbols-outlined">settings</i>
+                        <div class="animate-normal">Settings</div>
+                    </button>
+                    <button onclick="clearAllTasks()">
+                        <i class="material-symbols-outlined">delete_forever</i>
+                        <div class="animate-normal">Clear All</div>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -32,3 +62,5 @@
     <script src="app.js"></script>
 </body>
 </html>
+
+
