@@ -1,11 +1,23 @@
 const inputBox = document.getElementById('input-box');
 const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
-const taskCounterText = document.querySelector("#counter");
-const themeToggle = document.getElementById('theme-toggle')
-const themesList = ['light', 'dark', 'dragon']
+const taskCounterText = document.querySelector('#counter');
+const tooltipSwitch = document.getElementById('s1-14')
+
+const lightThemeSelector = document.getElementById('light-theme-selector')
+const darkThemeSelector = document.getElementById('dark-theme-selector')
+const dragonThemeSelector = document.getElementById('dragon-theme-selector')
+
+let taskList = [];
+let statusList = [];
 let taskCounter = 0;
-let themeSelector = 0;
+
+// list of supporters
+const kana = createSupporter('Kana',
+                            'assets/kana/kana_base.png',
+                            'assets/kana/kana_wellDone.png',
+                            'assets/kana/kana_base.png',
+                            'assets/kana/kana_base.png')
 
 
 // supporters factory function
@@ -31,38 +43,32 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
     }
 }
 
-// list of supporters
-const kana = createSupporter('Kana',
-                            'assets/kana/kana_base.png',
-                            'assets/kana/kana_wellDone.png',
-                            'assets/kana/kana_base.png',
-                            'assets/kana/kana_base.png')
-
 // change theme
-themeToggle.addEventListener("click", toggleTheme);
+lightThemeSelector.addEventListener('click', e => {
+    document.documentElement.setAttribute('data-theme', 'light');
+    saveTheme('light');
+    closeNav();
+})
 
-function toggleTheme() {
-    let currentTheme = document.documentElement.getAttribute("data-theme");
-    if (themeSelector == themesList.length - 1) {
-        themeSelector = 0;
-        document.documentElement.setAttribute('data-theme', themesList[0]);
-    } else {
-        themeSelector++;
-        document.documentElement.setAttribute('data-theme', themesList[themeSelector]);
-    }
-    themeToggle.innerHTML = themeSelector + 1;
-    saveTheme();
+darkThemeSelector.addEventListener('click', e => {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    saveTheme('dark');
+    closeNav();
+})
+
+dragonThemeSelector.addEventListener('click', e => {
+    document.documentElement.setAttribute('data-theme', 'dragon');
+    saveTheme('dragon');
+    closeNav();
+})
+
+function saveTheme(chosenTheme) {
+    localStorage.setItem("theme", chosenTheme);
 }
 
-// save theme on the local storage
-function saveTheme() {
-    localStorage.setItem("theme", themeSelector);
-}
-
-// retrieve the tasks from the local storage and display them
 function loadTheme() {
-    themeSelector = localStorage.getItem("theme");
-    document.documentElement.setAttribute('data-theme', themesList[themeSelector]);
+    chosenTheme = localStorage.getItem("theme");
+    document.documentElement.setAttribute('data-theme', chosenTheme);
 }
 
 loadTheme();
@@ -75,6 +81,10 @@ function addTask() {
     } else {
         let li = document.createElement("LI");
         li.innerHTML = inputBox.value;
+        taskList.push(inputBox.value);
+        statusList.push(false);
+        console.log(taskList);
+        console.log(statusList);
         listContainer.appendChild(li);
         let span = document.createElement("SPAN");
         span.innerHTML = "\u00d7";
@@ -86,6 +96,9 @@ function addTask() {
     saveData();
 }
 
+// click on the check to add the task
+inputCheck.addEventListener('click', e => {addTask();})
+
 // press the enter key to add the task
 inputBox.addEventListener('keypress', e => {
     if (e.key === 'Enter') {
@@ -93,16 +106,24 @@ inputBox.addEventListener('keypress', e => {
     }
 })
 
-// click on the check to add the task
-inputCheck.addEventListener('click', e => {addTask();})
-
-// check or uncheck a task
+// check, uncheck or delete a task
 listContainer.addEventListener("click", e => {
     if (e.target.tagName === "LI") {
         e.target.classList.toggle("checked");
+        let taskText = e.target.innerText.slice(0, -2);
+        let taskIndex = taskList.indexOf(taskText);
+        statusList[taskIndex] = true;
+        console.log(taskList);
+        console.log(statusList);
         saveData();
     } else if (e.target.tagName === "SPAN") {
         setTimeout(() => {
+            let taskText = e.target.parentElement.innerText.slice(0, -2);
+            let taskIndex = taskList.indexOf(taskText);
+            taskList.splice(taskIndex, 1);
+            statusList.splice(taskIndex, 1);
+            console.log(taskList);
+            console.log(statusList);
             e.target.parentElement.remove();
             taskCounter--;
             taskCounterText.innerText = taskCounter;
@@ -135,7 +156,6 @@ function showTask() {
 showTask();
 
 // Bottom nav and settings management
-
 window.onload = () => {
     const buttons = document.querySelectorAll(".multi-button button");
     buttons.forEach((button, index) => {
@@ -161,4 +181,22 @@ function openNav() {
 // Close/hide the sidenav
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+}
+
+
+// Copy the tasks in markdown to clipboard
+
+function exportMarkdown() {
+    // Get the text field
+    for 
+    let copyText = [];
+    let copyText = taskList.map(i => '--[x] ' + i);
+    copyText = copyText.join('\n');
+    console.log(copyText)
+
+    // Copy the text inside the text field
+    // navigator.clipboard.writeText(copyText.value);
+    
+    // Alert the copied text
+    // alert("Copied the text: " + copyText.value);
 }

@@ -59,8 +59,16 @@ html[data-theme='dragon'] {
     align-items: center;
 }
 
+.block {
+    display: block;
+}
+
 .clear {
     clear:both;
+}
+
+.display-none {
+    display: none;
 }
 
 * {
@@ -93,102 +101,99 @@ body {
     overflow: hidden;
 }
 
-/* Settings menu */
+/* Settings menu - begins */
 
 .sidenav {
-    height: 100%; /* 100% Full-height */
-    width: 0; /* 0 width - change this with JavaScript */
-    position: absolute; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
+    height: 100%;
+    width: 0;
+    position: absolute;
+    z-index: 1;
+    top: 0;
     left: 0;
-    background-color: #111; /* Black*/
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+    background-color: #111;
+    opacity: 90%;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
 }
 
-/* The navigation menu links */
 .sidenav a {
-    padding: 8px 8px 8px 32px;
+    text-align: center;
+    padding: 8px 0;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 20px;
     color: #818181;
     display: block;
+    min-width: 200px;
     transition: 0.3s;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
     color: #f1f1f1;
 }
 
-/* Position and style the close button (top right corner) */
 .sidenav .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
+    top: 552px;
+    left: 64px;
     font-size: 36px;
     margin-left: 50px;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+/* Use this to push the page content to the right when opening the side navigation */
 #main {
     transition: margin-left .5s;
     padding: 20px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
 
+/* ------ Settings menu - ends */
+
+
 .title-bar {
-    justify-content: space-between;
+    text-align: center;
     padding: 0 12px;
     background-color: var(--background-color);
 }
 
-#theme-toggle {
-    -webkit-user-select: none; /* Safari */
-    -ms-user-select: none; /* IE 10 and IE 11 */
-    user-select: none; /* Standard syntax */
-    width: 20px;
-    height: 20px;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 50%;
-    font-size: 10px;
-    font-weight: 700;
-    opacity: 0.8;
-}
-
-#theme-toggle:hover {
-    transform: scale(1.08);
-    opacity: 1;
-}
-
 .theme-selectors-container {
-
+    min-width: 200px;
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
 }
 
 .theme-selectors {
-
-    width: 90%;
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
-    /* width: 20px; */
-    height: 15px;
-    margin: 5px 20px 5px 20px;
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 10px;
     cursor: pointer;
-    /* border-radius: 5%; */
+    border-radius: 50%;
     border: 0.5px solid white;
 }
 
 .theme-selectors:hover {
-    transform: scale(1.02);
+    transform: scale(1.3);
+}
+
+#light-theme-selector {
+    background-color: #fff;
+}
+
+#dark-theme-selector {
+    background-color: #23262e;
+}
+
+#dragon-theme-selector {
+    background-color: #ab1010;
 }
 
 .theme-toggle-preview {

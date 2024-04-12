@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supporter Todo-App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="switch.css">
+    <link rel="stylesheet" href="./node_modules/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -13,20 +15,20 @@
         <div class="todo-app">
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <p>Themes</p>
+                <a href="#">Themes</a>
                 <div class="theme-selectors-container">
-                    <div class="theme-selectors light-theme-selector"></div>
-                    <div class="theme-selectors dark-theme-selector"></div>
-                    <div class="theme-selectors dragon-theme-selector"></div>
+                    <div class="theme-selectors" id="light-theme-selector"></div>
+                    <div class="theme-selectors" id="dark-theme-selector"></div>
+                    <div class="theme-selectors" id="dragon-theme-selector"></div>
                 </div>
-                <p>Services</p>
-                <p>Clients</p>
-                <p>Contact</p>
+                <a href="#">Tooltips off/on</a>
+                <div class="checkbox-wrapper-14">
+                    <input id="s1-14" type="checkbox" class="switch">
+                </div>
+                <a href="#">Supporters</a>
             </div>
-            <div class="title-bar flex-align-items-center">
-                <div class="theme-toggle-preview flex-align-items-center" id="theme-toggle">1</div>
+            <div class="title-bar">
                 <h1 class="my-title">To<span>Dos</span> for To<span>Day</span></span> (<span id="counter">0</span>)</h1>
-                <div class="theme-toggle-preview flex-align-items-center" id="theme-toggle">0</div>
             </div>
             <div class="row flex-align-items-center">
                 <label for="inp" class="inp">
@@ -42,7 +44,7 @@
             <ul id="list-container"></ul>
             <div class="nav-container">
                 <div class="multi-button" id="bottom">
-                    <button>
+                    <button onclick="exportMarkdown()">
                         <i class="material-symbols-outlined">markdown</i>
                         <div class="animate-normal">copy tasks</div>
                     </button>
