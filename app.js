@@ -2,15 +2,20 @@ const inputBox = document.getElementById('input-box');
 const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
 const taskCounterText = document.querySelector('#counter');
-const tooltipSwitch = document.getElementById('s1-14')
+const tooltipSwitch = document.getElementById('s1-14');
+const logseqSwitch = document.getElementById('s1-15');
 
+const gradientToFadeOut = document.getElementById('gradient-to-fade');
 const lightThemeSelector = document.getElementById('light-theme-selector')
 const darkThemeSelector = document.getElementById('dark-theme-selector')
-const dragonThemeSelector = document.getElementById('dragon-theme-selector')
+const sunsetThemeSelector = document.getElementById('sunset-theme-selector')
 
 let taskList = [];
 let statusList = [];
 let taskCounter = 0;
+let currentTheme = 'light';
+// let tooltipSwitchStatus = tooltipSwitch.addEventListener('click', e => {console.log(tooltipSwitch.checked);});
+// let logseqSwitchStatus = logseqSwitch.addEventListener('click', e => {console.log(logseqSwitch.checked);});
 
 // list of supporters
 const kana = createSupporter('Kana',
@@ -20,7 +25,7 @@ const kana = createSupporter('Kana',
                             'assets/kana/kana_base.png')
 
 
-// supporters factory function
+// ------ supporters factory function
 function createSupporter(name, baseState, wellDoneState, concernedState, calloutState) {
     return {
         name: name,
@@ -43,37 +48,57 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
     }
 }
 
-// change theme
+// ------ Themes
 lightThemeSelector.addEventListener('click', e => {
+    gradientToFadeOut.setAttribute('data-theme', currentTheme);
+    gradientToFadeOut.classList.add('gradient-background');
+    gradientToFadeOut.style.opacity = 1.0;
     document.documentElement.setAttribute('data-theme', 'light');
-    saveTheme('light');
+    gradientFadeOut();
+    localStorage.setItem("theme", 'light');
+    currentTheme = 'light';
     closeNav();
 })
 
 darkThemeSelector.addEventListener('click', e => {
+    gradientToFadeOut.setAttribute('data-theme', currentTheme);
+    gradientToFadeOut.classList.add('gradient-background');
+    gradientToFadeOut.style.opacity = 1.0;
     document.documentElement.setAttribute('data-theme', 'dark');
-    saveTheme('dark');
+    gradientFadeOut();
+    localStorage.setItem("theme", 'dark');
+    currentTheme = 'dark';
     closeNav();
 })
 
-dragonThemeSelector.addEventListener('click', e => {
-    document.documentElement.setAttribute('data-theme', 'dragon');
-    saveTheme('dragon');
+sunsetThemeSelector.addEventListener('click', e => {
+    gradientToFadeOut.setAttribute('data-theme', currentTheme);
+    gradientToFadeOut.classList.add('gradient-background');
+    gradientToFadeOut.style.opacity = 1.0;
+    document.documentElement.setAttribute('data-theme', 'sunset');
+    gradientFadeOut()
+    localStorage.setItem("theme", 'sunset');
+    currentTheme = 'sunset';
     closeNav();
 })
-
-function saveTheme(chosenTheme) {
-    localStorage.setItem("theme", chosenTheme);
-}
 
 function loadTheme() {
-    chosenTheme = localStorage.getItem("theme");
-    document.documentElement.setAttribute('data-theme', chosenTheme);
+    currentTheme = localStorage.getItem("theme");
+    document.documentElement.setAttribute('data-theme', currentTheme);
 }
 
 loadTheme();
 
-// add a task
+function gradientFadeOut() {
+    gradientToFadeOut.style.opacity -= 0.1;
+    if(gradientToFadeOut.style.opacity < 0.0) {
+        gradientToFadeOut.style.opacity = 0.0;
+    } else {
+    setTimeout(gradientFadeOut, 100);
+    }
+}
+
+// ------ Tasks management
 function addTask() {
     if (inputBox.value === '') {
         // let's replace this by a message from the supporter later
@@ -96,11 +121,11 @@ function addTask() {
     saveData();
 }
 
-// click on the check to add the task
+// click on the check mark to add the task
 inputCheck.addEventListener('click', e => {addTask();})
 
 // press the enter key to add the task
-inputBox.addEventListener('keypress', e => {
+inputBox.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
         addTask();
     }
@@ -112,9 +137,7 @@ listContainer.addEventListener("click", e => {
         e.target.classList.toggle("checked");
         let taskText = e.target.innerText.slice(0, -2);
         let taskIndex = taskList.indexOf(taskText);
-        statusList[taskIndex] = true;
-        console.log(taskList);
-        console.log(statusList);
+        statusList[taskIndex] = !statusList[taskIndex];
         saveData();
     } else if (e.target.tagName === "SPAN") {
         setTimeout(() => {
@@ -127,8 +150,6 @@ listContainer.addEventListener("click", e => {
             e.target.parentElement.remove();
             taskCounter--;
             taskCounterText.innerText = taskCounter;
-            // showPopUp();
-            // showMessage();
             saveData();
         }, 0); //add delay later after adding the supporter popup
     }
@@ -138,6 +159,8 @@ listContainer.addEventListener("click", e => {
 function clearAllTasks() {
     let allTasks = document.querySelectorAll('li');
     allTasks.forEach(li => li.remove());
+    taskList = [];
+    statusList = [];
     taskCounter = 0;
     taskCounterText.innerText = taskCounter;
     saveData();
@@ -155,7 +178,7 @@ function showTask() {
 
 showTask();
 
-// Bottom nav and settings management
+// ------ Bottom nav, Side Nav and settings management
 window.onload = () => {
     const buttons = document.querySelectorAll(".multi-button button");
     buttons.forEach((button, index) => {
@@ -174,29 +197,49 @@ window.onload = () => {
     });
 }
 
-// Open the sidenav
+
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
 }
-// Close/hide the sidenav
+
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
+// press the esc key to close side navigation
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        if (document.getElementById("mySidenav").style.width === "100%") {
+            closeNav();
+        }
+    }
+});
 
 // Copy the tasks in markdown to clipboard
 
 function exportMarkdown() {
     // Get the text field
-    for 
-    let copyText = [];
-    let copyText = taskList.map(i => '--[x] ' + i);
-    copyText = copyText.join('\n');
-    console.log(copyText)
+    let markdownArr = [];
+    for (i = 0; i < statusList.length; i += 1) {
+        if (statusList[i] === false) {
+            markdownArr[i] = '- [ ] ';
+        } else {
+            markdownArr[i] = '- [x] ';
+        }
+    };
+    if (markdownArr.length === 0) {
+        alert("There is nothing to copy!");
+    } else {
+        let exportArr = [];
+        for (i = 0; i < markdownArr.length; i += 1) {
+            exportArr.push(markdownArr[i] + taskList[i]);
+        }
 
-    // Copy the text inside the text field
-    // navigator.clipboard.writeText(copyText.value);
-    
-    // Alert the copied text
-    // alert("Copied the text: " + copyText.value);
+        let copyText = exportArr.join('\n');
+        navigator.clipboard.writeText(copyText).then(() => {
+            markdownArr = [];
+            exportArr = [];
+            alert("Copied to clipboard");
+        });
+    }
 }

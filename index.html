@@ -11,24 +11,40 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-    <div class="container flex-align-items-center">
+    <div class="container flex-align-items-center" id="app-container">
+        <div class="temp-gradient" id="gradient-to-fade"></div>
         <div class="todo-app">
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                <a href="#">Themes</a>
-                <div class="theme-selectors-container">
-                    <div class="theme-selectors" id="light-theme-selector"></div>
-                    <div class="theme-selectors" id="dark-theme-selector"></div>
-                    <div class="theme-selectors" id="dragon-theme-selector"></div>
+                <div class="menu-items-container">
+                    <a href="#">Themes</a>
+                    <div class="theme-selectors-container">
+                        <div class="theme-selectors" id="light-theme-selector"></div>
+                        <div class="theme-selectors" id="dark-theme-selector"></div>
+                        <div class="theme-selectors" id="sunset-theme-selector"></div>
+                        <div class="theme-selectors" id="four-theme-selector"></div>
+                        <div class="theme-selectors" id="five-theme-selector"></div>
+                        <div class="theme-selectors" id="six-theme-selector"></div>
+                    </div>
                 </div>
-                <a href="#">Tooltips off/on</a>
-                <div class="checkbox-wrapper-14">
-                    <input id="s1-14" type="checkbox" class="switch">
+                <div class="menu-items-container">
+                    <a href="#">Tooltips</a>
+                    <div class="checkbox-wrapper-14">
+                        <input id="s1-14" type="checkbox" class="switch">
+                    </div>
                 </div>
-                <a href="#">Supporters</a>
+                <div class="menu-items-container">
+                    <a href="#">Logseq</a>
+                    <div class="checkbox-wrapper-14">
+                        <input id="s1-15" type="checkbox" class="switch">
+                    </div>
+                </div>
+                <div class="supporters-menu-items-container">
+                    <a href="#">Supporters</a>
+                </div>
             </div>
             <div class="title-bar">
-                <h1 class="my-title">To<span>Dos</span> for To<span>Day</span></span> (<span id="counter">0</span>)</h1>
+                <h1 class="app-title">To<span>Dos</span> for To<span>Day</span></span> (<span id="counter">0</span>)</h1>
             </div>
             <div class="row flex-align-items-center">
                 <label for="inp" class="inp">
@@ -45,15 +61,15 @@
             <div class="nav-container">
                 <div class="multi-button" id="bottom">
                     <button onclick="exportMarkdown()">
-                        <i class="material-symbols-outlined">markdown</i>
+                        <i class="icons material-symbols-outlined">markdown</i>
                         <div class="animate-normal">copy tasks</div>
                     </button>
                     <button onclick="openNav()">
-                        <i class="material-symbols-outlined">settings</i>
+                        <i class="icons material-symbols-outlined">settings</i>
                         <div class="animate-normal">Settings</div>
                     </button>
                     <button onclick="clearAllTasks()">
-                        <i class="material-symbols-outlined">delete_forever</i>
+                        <i class="icons material-symbols-outlined">delete_forever</i>
                         <div class="animate-normal">Clear All</div>
                     </button>
                 </div>

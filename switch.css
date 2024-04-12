@@ -16,7 +16,7 @@
         display: inline-block;
         vertical-align: top;
         position: relative;
-        margin: 0;
+        margin: 0 0 0 4px;
         cursor: pointer;
         border: 1px solid var(--bc, var(--border));
         background: var(--b, var(--background));
@@ -110,8 +110,8 @@
 
 .checkbox-wrapper-14 {
     display: flex;
-    justify-content: center;
-    margin: 15px 10px;
+    justify-content: start;
+    min-width: 250px;
 }
 
 .checkbox-wrapper-14 * {
