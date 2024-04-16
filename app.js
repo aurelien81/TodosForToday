@@ -1,9 +1,14 @@
+const todoAppContainer = document.getElementById('todo-app-container');
 const inputBox = document.getElementById('input-box');
 const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
 const taskCounterText = document.querySelector('#counter');
 const tooltipSwitch = document.getElementById('s1-14');
 const logseqSwitch = document.getElementById('s1-15');
+
+const modal = document.getElementById("myModal");
+const btn = document.getElementById("myBtn");
+const closeModal = document.getElementsByClassName("close")[0];
 
 const gradientToFadeOut = document.getElementById('gradient-to-fade');
 const lightThemeSelector = document.getElementById('light-theme-selector')
@@ -14,6 +19,7 @@ let taskList = [];
 let statusList = [];
 let taskCounter = 0;
 let currentTheme = 'light';
+let currentSupporter = '';
 // let tooltipSwitchStatus = tooltipSwitch.addEventListener('click', e => {console.log(tooltipSwitch.checked);});
 // let logseqSwitchStatus = logseqSwitch.addEventListener('click', e => {console.log(logseqSwitch.checked);});
 
@@ -166,7 +172,7 @@ function clearAllTasks() {
     saveData();
 }
 
-// save data on the local storage
+// save the tasks on the local storage
 function saveData() {
     localStorage.setItem("data", listContainer.innerHTML);
 }
@@ -197,7 +203,6 @@ window.onload = () => {
     });
 }
 
-
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
 }
@@ -206,17 +211,19 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
-// press the esc key to close side navigation
+// press the esc key to close side navigation OR modal
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         if (document.getElementById("mySidenav").style.width === "100%") {
             closeNav();
-        }
+        } else if (modal.style.display === "block") {
+            modal.style.display = "none";
+            // todoAppContainer.classList.remove('blur');
+        } 
     }
 });
 
 // Copy the tasks in markdown to clipboard
-
 function exportMarkdown() {
     // Get the text field
     let markdownArr = [];
@@ -242,4 +249,17 @@ function exportMarkdown() {
             alert("Copied to clipboard");
         });
     }
+}
+
+// Modal management
+
+// Opening and closing the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+    // todoAppContainer.classList.add('blur');
+}
+
+closeModal.onclick = function() {
+    modal.style.display = "none";
+    // todoAppContainer.classList.remove('blur');
 }
