@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supporter Todo-App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modal.css">
     <link rel="stylesheet" href="switch.css">
-    <!-- <link rel="stylesheet" href="modal.css"> -->
     <link rel="stylesheet" href="./node_modules/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -40,8 +40,38 @@
                         <input id="s1-15" type="checkbox" class="switch">
                     </div>
                 </div>
-                <div class="supporters-menu-items-container">
+                <div class="supporter-items-container">
                     <a href="#">Supporters</a>
+                    <div class="supporters-menu-container">
+                        <div class="supporters-thumbs">
+                            <button id="no-supporter-selector" onclick="selectSupporter('noSupporter')">
+                                <img src="./assets/supporterNone.png">
+                                <div class="animate-normal">None</div>
+                            </button>
+                            <button id="kana-supporter-selector" onclick="selectSupporter(kana)">
+                                <img src="./assets/kana/kana_thumb.png">
+                                <div class="animate-normal">Kana</div>
+                            </button>
+                            <button id="" onclick="">
+                                <img src="./assets/supporterNone.png">
+                                <div class="animate-normal">None</div>
+                            </button>
+                        </div>
+                        <div class="supporters-thumbs">
+                            <button id="" onclick="">
+                                <img src="./assets/supporterNone.png">
+                                <div class="animate-normal">None</div>
+                            </button>
+                            <button id="" onclick="">
+                                <img src="./assets/kana/kana_thumb.png">
+                                <div class="animate-normal">Kana</div>
+                            </button>
+                            <button id="" onclick="">
+                                <img src="./assets/supporterNone.png">
+                                <div class="animate-normal">None</div>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="title-bar">
@@ -60,7 +90,7 @@
             </div>
             <ul id="list-container"></ul>
             <div class="nav-container">
-                <div class="multi-button" id="bottom">
+                <div class="multi-button">
                     <button onclick="exportMarkdown()">
                         <i class="icons material-symbols-outlined">markdown</i>
                         <div class="animate-normal">copy tasks</div>
@@ -75,21 +105,21 @@
                     </button>
                 </div>
             </div>
-            <button id="myBtn">Open Modal</button>
+            <button class="hide" id="myBtn" onclick="openModal()">Open Modal</button>
             <div id="myModal" class="modal">
-                <div class="modal-content">
+                <div id="myModalContent" class="modal-content">
                     <div class="modal-header">
-                        <img src="./assets/kana/kana_base.png" alt="">
+                        <img src="" alt="" id="supporter-avatar">
                     </div>
                     <div class="modal-body">
-                        <p >Some text in the Modal Body Some text in the Modal Body</p>
+                        <p id="dialog-box"></p>
                     </div>
                     <div class="modal-footer flex-align-items-center">
                         <div class="modal-footer-left">
                             <p class="close"><span>&times;</span> Close</p>
                         </div>
                         <div class="modal-footer-right">
-                            <p class="close">Next <span>&gt;</span></p>
+                            <p class="close" id="response"></p>
                         </div>
                     </div>
                 </div>

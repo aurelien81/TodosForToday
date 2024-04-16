@@ -1,4 +1,5 @@
-/* The Modal (background) */
+/* ------ Modal for messages and supporters */
+
 .modal {
     display: none;
     position: absolute;
@@ -8,44 +9,50 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4);
+    background-color: var(--accent-color);
+    background-color: var(--accent-color-low-opacity);
     -webkit-animation-name: fadeIn;
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
 }
 
-/* Modal Content */
 .modal-content {
     position: absolute;
     bottom: 0;
-    /* background-color: #fefefe; */
     width: 100%;
     -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s
+    animation-duration: 0.4s;
 }
 
-/* The Close Button */
 .close {
     color: var(--text-color);
-    /* float: right; */
-    font-size: 28px;
+    font-size: 14px;
     font-weight: bold;
+}
+
+.close span {
+    font-size: 18px;
 }
 
 .close:hover,
 .close:focus {
-    color: #000;
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close span:hover,
+.close span:focus {
+    color: var(--accent-color);
     text-decoration: none;
     cursor: pointer;
 }
 
 .modal-header {
     z-index: 3;
-    padding: 2px 16px;
     background-color: transparent;
     overflow:hidden;
 }
@@ -64,14 +71,26 @@
     z-index: 4;
 }
 
+.modal-body p {
+    color: var(--menu-text-color);
+    line-height: 1.6;
+    z-index: inherit;
+}
+
 .modal-footer {
-    padding: 2px 16px;
+    justify-content: space-between;
+    padding: 0 15px;
     background-color: var(--background-color);
-    color: var(--modal-footer-text-color);
+    color: var(--text-color);
     z-index: 3;
 }
 
-/* Add Animation */
+.modal-footer p {
+    padding: 5px 0;
+    margin: 0;
+    color: var(--text-color);
+}
+
 @-webkit-keyframes slideIn {
     from {bottom: -300px; opacity: 0} 
     to {bottom: 0; opacity: 1}
@@ -91,3 +110,5 @@
     from {opacity: 0} 
     to {opacity: 1}
 }
+
+/* ------ */

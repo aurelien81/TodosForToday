@@ -5,35 +5,39 @@ const listContainer = document.getElementById('list-container');
 const taskCounterText = document.querySelector('#counter');
 const tooltipSwitch = document.getElementById('s1-14');
 const logseqSwitch = document.getElementById('s1-15');
+const supporterAvatar = document.getElementById('supporter-avatar');
+const dialogBox = document.getElementById('dialog-box');
+const response = document.getElementById('response');
 
 const modal = document.getElementById("myModal");
+const modalContent = document.getElementById('myModalContent');
 const btn = document.getElementById("myBtn");
-const closeModal = document.getElementsByClassName("close")[0];
+const closeModalBtn = document.getElementsByClassName("close")[0];
 
 const gradientToFadeOut = document.getElementById('gradient-to-fade');
 const lightThemeSelector = document.getElementById('light-theme-selector')
 const darkThemeSelector = document.getElementById('dark-theme-selector')
 const sunsetThemeSelector = document.getElementById('sunset-theme-selector')
 
+const supportersArray = [];
+// const noSupporterSelector = document.getElementById('no-supporter-selector');
+// const kanaSupporterSelector = document.getElementById('kana-supporter-selector');
+
 let taskList = [];
 let statusList = [];
 let taskCounter = 0;
 let currentTheme = 'light';
 let currentSupporter = '';
+let supporterChosen = '';
+let noSupporter = false;
 // let tooltipSwitchStatus = tooltipSwitch.addEventListener('click', e => {console.log(tooltipSwitch.checked);});
 // let logseqSwitchStatus = logseqSwitch.addEventListener('click', e => {console.log(logseqSwitch.checked);});
 
-// list of supporters
-const kana = createSupporter('Kana',
-                            'assets/kana/kana_base.png',
-                            'assets/kana/kana_wellDone.png',
-                            'assets/kana/kana_base.png',
-                            'assets/kana/kana_base.png')
+// ------ Supporters management
 
-
-// ------ supporters factory function
+// supporters factory function
 function createSupporter(name, baseState, wellDoneState, concernedState, calloutState) {
-    return {
+    const supporter = {
         name: name,
         baseState: baseState,
         wellDoneState: wellDoneState,
@@ -51,8 +55,82 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
         callOutMessage () {
             return `Careful! Creating too many tasks can be stressful and set you up for failure!`
         }
+    };
+    supportersArray.push(supporter);
+    return supporter;
+}
+
+// list of supporters
+const kana = createSupporter('Kana',
+                            'assets/kana/kana_base.png',
+                            'assets/kana/kana_wellDone.png',
+                            'assets/kana/kana_concerned.png',
+                            'assets/kana/kana_callOut.png')
+
+// Debugging: Opening the modal
+btn.onclick = function() {
+    supporterAvatar.src = currentSupporter.baseState;
+    dialogBox.innerHTML = currentSupporter.greet();
+    openModal();
+}
+
+// Closing the modal
+closeModalBtn.onclick = function() {
+    closeModal();
+}
+
+function openModal() {
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    modal.style.display = "none";
+}
+
+
+// Selecting the supporter
+function selectSupporter(supporterChosen) {
+    if (supporterChosen === 'noSupporter') {
+        noSupporter = true;
+        currentSupporter = '';
+        alert("You turned off the supporter option.");
+    } else {
+        supporterAvatar.src = supporterChosen.baseState;
+        dialogBox.innerHTML = supporterChosen.greet();
+        response.innerHTML = 'Accept ' + supporterChosen.name;
+        openModal();
+        response.onclick = function() {
+            currentSupporter = supporterChosen;
+            console.log(currentSupporter.name);
+            closeModal();
+            response.innerHTML = '';
+        }
+    }
+    saveSupporter();
+}
+
+function saveSupporter() {
+    localStorage.setItem("supporterName", currentSupporter.name);
+}
+
+function loadSupporter() {
+    const savedSupporterName = localStorage.getItem("supporterName");
+    if (savedSupporterName) {
+        currentSupporter = findSupporterByName(savedSupporterName);
     }
 }
+
+function findSupporterByName(name) {
+    for (const supporter of supportersArray) {
+        if (supporter.name === name) {
+            return supporter;
+        }
+    }
+    return null;
+}
+
+loadSupporter()
+console.log(currentSupporter.name);
 
 // ------ Themes
 lightThemeSelector.addEventListener('click', e => {
@@ -104,6 +182,7 @@ function gradientFadeOut() {
     }
 }
 
+
 // ------ Tasks management
 function addTask() {
     if (inputBox.value === '') {
@@ -114,8 +193,8 @@ function addTask() {
         li.innerHTML = inputBox.value;
         taskList.push(inputBox.value);
         statusList.push(false);
-        console.log(taskList);
-        console.log(statusList);
+        // console.log(taskList);
+        // console.log(statusList);
         listContainer.appendChild(li);
         let span = document.createElement("SPAN");
         span.innerHTML = "\u00d7";
@@ -139,8 +218,17 @@ inputBox.addEventListener('keydown', e => {
 
 // check, uncheck or delete a task
 listContainer.addEventListener("click", e => {
-    if (e.target.tagName === "LI") {
-        e.target.classList.toggle("checked");
+    if (e.target.tagName === "LI" && !e.target.classList.contains('checked')) {
+        e.target.classList.add("checked");
+        let taskText = e.target.innerText.slice(0, -2);
+        let taskIndex = taskList.indexOf(taskText);
+        statusList[taskIndex] = !statusList[taskIndex];
+        saveData();
+        supporterAvatar.src = currentSupporter.wellDoneState;
+        dialogBox.innerHTML = currentSupporter.wellDoneMessage();
+        openModal();
+    } else if (e.target.tagName === "LI" && e.target.classList.contains('checked')) {
+        e.target.classList.remove("checked");
         let taskText = e.target.innerText.slice(0, -2);
         let taskIndex = taskList.indexOf(taskText);
         statusList[taskIndex] = !statusList[taskIndex];
@@ -151,8 +239,8 @@ listContainer.addEventListener("click", e => {
             let taskIndex = taskList.indexOf(taskText);
             taskList.splice(taskIndex, 1);
             statusList.splice(taskIndex, 1);
-            console.log(taskList);
-            console.log(statusList);
+            // console.log(taskList);
+            // console.log(statusList);
             e.target.parentElement.remove();
             taskCounter--;
             taskCounterText.innerText = taskCounter;
@@ -185,24 +273,6 @@ function showTask() {
 showTask();
 
 // ------ Bottom nav, Side Nav and settings management
-window.onload = () => {
-    const buttons = document.querySelectorAll(".multi-button button");
-    buttons.forEach((button, index) => {
-        button.addEventListener("mouseover", () => {
-            if (index > 0) {
-                const prevTooltip = buttons[index-1].querySelector("div");
-                prevTooltip.classList.remove("animate-right");
-                prevTooltip.classList.add("animate-left");
-            }
-            if (index < buttons.length - 1) {
-                const nextTooltip = buttons[index+1].querySelector("div");
-                nextTooltip.classList.remove("animate-left");
-                nextTooltip.classList.add("animate-right");
-            }
-        });
-    });
-}
-
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
 }
@@ -211,14 +281,11 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
-// press the esc key to close side navigation OR modal
+// press the esc key to close side navigation
 document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
         if (document.getElementById("mySidenav").style.width === "100%") {
             closeNav();
-        } else if (modal.style.display === "block") {
-            modal.style.display = "none";
-            // todoAppContainer.classList.remove('blur');
         } 
     }
 });
@@ -251,15 +318,3 @@ function exportMarkdown() {
     }
 }
 
-// Modal management
-
-// Opening and closing the modal
-btn.onclick = function() {
-    modal.style.display = "block";
-    // todoAppContainer.classList.add('blur');
-}
-
-closeModal.onclick = function() {
-    modal.style.display = "none";
-    // todoAppContainer.classList.remove('blur');
-}
