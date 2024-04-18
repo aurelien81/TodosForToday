@@ -1,7 +1,10 @@
+/* TODO: merge back into style.css when fixed */
+
 /* ------ Modal for messages and supporters */
 
 .modal {
     display: none;
+    opacity: 0;
     position: absolute;
     z-index: 2;
     top: 0;
@@ -11,20 +14,20 @@
     overflow: hidden;
     background-color: var(--accent-color);
     background-color: var(--accent-color-low-opacity);
-    -webkit-animation-name: fadeIn;
+    /* -webkit-animation-name: fadeIn;
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
-    animation-duration: 0.4s;
+    animation-duration: 0.4s; */
 }
 
 .modal-content {
     position: absolute;
     bottom: 0;
     width: 100%;
-    -webkit-animation-name: slideIn;
+    /* -webkit-animation-name: slideIn;
     -webkit-animation-duration: 0.4s;
     animation-name: slideIn;
-    animation-duration: 0.4s;
+    animation-duration: 0.4s; */
 }
 
 .close {
@@ -91,7 +94,7 @@
     color: var(--text-color);
 }
 
-@-webkit-keyframes slideIn {
+/* @-webkit-keyframes slideIn {
     from {bottom: -300px; opacity: 0} 
     to {bottom: 0; opacity: 1}
 }
@@ -109,6 +112,6 @@
 @keyframes fadeIn {
     from {opacity: 0} 
     to {opacity: 1}
-}
+} */
 
 /* ------ */

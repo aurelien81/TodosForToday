@@ -46,6 +46,9 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
         greet() {
             return `Hello! My name is ${name}. Happy to meet you!`;
         },
+        writeSomethingMessage() {
+            return `Hey! You have to enter a task first!`;
+        },
         wellDoneMessage() {
             return `Well done! Keep going!`;
         },
@@ -79,12 +82,60 @@ closeModalBtn.onclick = function() {
     closeModal();
 }
 
+let pos = 0;
+let opa = 0;
+let incrementer = 1;
+const topLimit = 0;
+const bottomLimit = 300;
+
 function openModal() {
+    pos = -300;
+    opa = 0;
+    incrementer = 24;
+
+    function slideInFadeIn() {
+        pos = pos + (1 * incrementer);
+        incrementer--;
+        opa = opa + 0.05;
+        modalContent.style.bottom = pos + 'px';
+        modal.style.opacity = opa;
+        if (pos >= topLimit && opa >= 1) {
+            clearInterval(slideInFadeInAnimation);
+        }
+    }
+
+
     modal.style.display = "block";
+    const slideInFadeInAnimation = setInterval(slideInFadeIn, 15);
+
+    setTimeout(() => {
+        modalContent.style.bottom = '0';
+        modal.style.opacity = '1';
+    }, 400);
 }
 
-function closeModal() {
-    modal.style.display = "none";
+function closeModal() {  
+    pos = 0;
+    opa = 1;
+    incrementer = 1;
+    
+    function slideOutFadeOut() {
+        pos = pos - (1 * incrementer);
+        incrementer++;
+        opa = opa - 0.05;
+        modalContent.style.bottom = pos + 'px';
+        modal.style.opacity = opa;
+        if (pos < bottomLimit && opa <= 0) {
+            clearInterval(slideOutFadeOutAnimation);
+        }
+    }
+
+    const slideOutFadeOutAnimation = setInterval(slideOutFadeOut, 15);
+    setTimeout(() => {
+        modal.style.display = "none";
+        modalContent.style.bottom = '-300px';
+        modal.style.opacity = '0';
+    }, 350);
 }
 
 
@@ -103,7 +154,6 @@ function selectSupporter(supporterChosen) {
             currentSupporter = supporterChosen;
             console.log(currentSupporter.name);
             closeModal();
-            response.innerHTML = '';
         }
     }
     saveSupporter();
@@ -186,8 +236,13 @@ function gradientFadeOut() {
 // ------ Tasks management
 function addTask() {
     if (inputBox.value === '') {
-        // let's replace this by a message from the supporter later
-        alert("You must write something!");
+        supporterAvatar.src = currentSupporter.calloutStateState;
+        dialogBox.innerHTML = currentSupporter.writeSomethingMessage();
+        response.innerHTML = '';
+        openModal();
+        setTimeout(() => {
+            closeModal();
+        }, 2000);
     } else {
         let li = document.createElement("LI");
         li.innerHTML = inputBox.value;
@@ -226,7 +281,11 @@ listContainer.addEventListener("click", e => {
         saveData();
         supporterAvatar.src = currentSupporter.wellDoneState;
         dialogBox.innerHTML = currentSupporter.wellDoneMessage();
+        response.innerHTML = '';
         openModal();
+        setTimeout(() => {
+            closeModal();
+        }, 2000);
     } else if (e.target.tagName === "LI" && e.target.classList.contains('checked')) {
         e.target.classList.remove("checked");
         let taskText = e.target.innerText.slice(0, -2);
