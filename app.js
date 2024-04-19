@@ -1,24 +1,21 @@
 const todoAppContainer = document.getElementById('todo-app-container');
+const taskCounterText = document.getElementById('counter');
 const inputBox = document.getElementById('input-box');
 const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
-const taskCounterText = document.querySelector('#counter');
-const tooltipSwitch = document.getElementById('s1-14');
-const logseqSwitch = document.getElementById('s1-15');
-const supporterAvatar = document.getElementById('supporter-avatar');
-const dialogBox = document.getElementById('dialog-box');
-const response = document.getElementById('response');
 
 const modal = document.getElementById("myModal");
 const modalContent = document.getElementById('myModalContent');
-const btn = document.getElementById("myBtn");
-const btnTwo = document.getElementById("myBtn2");
+const supporterAvatar = document.getElementById('supporter-avatar');
+const dialogBox = document.getElementById('dialog-box');
+const response = document.getElementById('response');
 const closeModalBtn = document.getElementsByClassName("close")[0];
 
 const gradientToFadeOut = document.getElementById('gradient-to-fade');
 const lightThemeSelector = document.getElementById('light-theme-selector')
 const darkThemeSelector = document.getElementById('dark-theme-selector')
 const sunsetThemeSelector = document.getElementById('sunset-theme-selector')
+// const exportSwitch = document.getElementById('export-switch');
 
 const supportersArray = [];
 
@@ -28,18 +25,19 @@ let taskCounter = 0;
 let currentTheme = 'light';
 let currentSupporter = '';
 let supporterChosen = '';
-let noSupporter = false;
+let noSupporter = true;
 let pos = 0;
 let opa = 0;
 let incrementer = 1;
 const topLimit = 0;
 const bottomLimit = 300;
-// let tooltipSwitchStatus = tooltipSwitch.addEventListener('click', e => {console.log(tooltipSwitch.checked);});
-// let logseqSwitchStatus = logseqSwitch.addEventListener('click', e => {console.log(logseqSwitch.checked);});
 
 // || Debugging buttons ||
 
-// Modal
+const btn = document.getElementById("myBtn");
+const btnTwo = document.getElementById("myBtn2");
+
+// modal
 btn.onclick = function() {
     if (noSupporter === true) {
         alert("supporter none selected");
@@ -48,7 +46,7 @@ btn.onclick = function() {
     }
 }
 
-// Clear local storage
+// clear local storage
 btnTwo.onclick = function() {
     localStorage.clear();
 }
@@ -170,6 +168,18 @@ function loadTasks() {
     listContainer.innerHTML = localStorage.getItem("data");
 }
 
+function saveExportStatus(){
+    const checkbox = document.getElementById('export-switch');
+    localStorage.setItem('export-switch', checkbox.checked);
+}
+
+function loadExportStatus(){    
+    var checked = JSON.parse(localStorage.getItem('export-switch'));
+    document.getElementById("export-switch").checked = checked;
+}
+
+// saveExportStatus();
+
 loadSupporterStatus();
 console.log(noSupporter);
 
@@ -178,6 +188,9 @@ console.log(currentSupporter.name);
 
 loadTasks();
 console.log(listContainer.innerHTML);
+
+// loadExportStatus()
+// console.log(exportSwitch.checked);
 
 // || modal management ||
 
@@ -371,6 +384,10 @@ function clearAllTasks() {
 
 let escapeSettingsMenu = '';
 
+// function checkUncheck() {
+//     let i = 0;
+// }
+
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
     escapeSettingsMenu = document.addEventListener('keydown', e => {
@@ -391,13 +408,23 @@ function closeNav() {
 function exportMarkdown() {
     // Get the text field
     let markdownArr = [];
-    for (i = 0; i < statusList.length; i += 1) {
-        if (statusList[i] === false) {
-            markdownArr[i] = '- [ ] ';
-        } else {
-            markdownArr[i] = '- [x] ';
-        }
-    };
+    if (exportSwitch.checked === false) {
+        for (i = 0; i < statusList.length; i += 1) {
+            if (statusList[i] === false) {
+                markdownArr[i] = '- [ ] ';
+            } else {
+                markdownArr[i] = '- [x] ';
+                }
+            };
+    } else {
+        for (i = 0; i < statusList.length; i += 1) {
+            if (statusList[i] === false) {
+                markdownArr[i] = '\nTODO ';
+            } else {
+                markdownArr[i] = '\nDONE ';
+                }
+            };
+    }
     if (markdownArr.length === 0) {
         if (noSupporter === false) {
             supporterPopUp(currentSupporter.calloutState, currentSupporter.nothingToCopyMessage(), '');

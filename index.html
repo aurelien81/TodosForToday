@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supporter Todo-App</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="switch.css">
     <link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -27,16 +26,15 @@
                         <div class="theme-selectors" id="six-theme-selector"></div>
                     </div>
                 </div>
-                <div class="menu-items-container">
-                    <a href="#">Tooltips</a>
-                    <div class="checkbox-wrapper-14">
-                        <input id="s1-14" type="checkbox" class="switch">
-                    </div>
-                </div>
-                <div class="menu-items-container">
-                    <a href="#">Logseq</a>
-                    <div class="checkbox-wrapper-14">
-                        <input id="s1-15" type="checkbox" class="switch">
+                <div class="export-items-container">
+                    <a href="#">Export Settings</a>
+                    <div class="toggle-items-container">
+                        <label for="export-switch" class="toggle">
+                            <span class="toggle-label">Markdown</span>
+                            <input class="toggle-checkbox" type="checkbox" id="export-switch">
+                            <div class="toggle-switch"></div>
+                            <span class="toggle-label">TODO/DONE</span>
+                        </label>
                     </div>
                 </div>
                 <div class="supporter-items-container">
@@ -52,16 +50,16 @@
                                 <div class="animate-normal">Kana</div>
                             </button>
                             <button id="" onclick="">
-                                <img src="./assets/supporterNone.png">
-                                <div class="animate-normal">None</div>
+                                <img src="./assets/noemie/noemie_thumb.png">
+                                <div class="animate-normal">Noemie</div>
                             </button>
                             <button id="" onclick="">
                                 <img src="./assets/supporterNone.png">
                                 <div class="animate-normal">None</div>
                             </button>
                             <button id="" onclick="">
-                                <img src="./assets/kana/kana_thumb.png">
-                                <div class="animate-normal">Kana</div>
+                                <img src="./assets/supporterNone.png">
+                                <div class="animate-normal">None</div>
                             </button>
                             <button id="" onclick="">
                                 <img src="./assets/supporterNone.png">
