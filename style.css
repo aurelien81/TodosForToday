@@ -1,4 +1,4 @@
-/* themes with variables */
+/* || themes and variables || */
 
 :root {
     --main-color: #fff;
@@ -87,7 +87,7 @@ html[data-theme='sunset'] {
     /* background: linear-gradient(135deg, #153677, #4e085f); */
 }
 
-/* ------ Framework */
+/* || framwork items || */
 
 .flex-align-items-center {
     display: flex;
@@ -106,7 +106,7 @@ html[data-theme='sunset'] {
     display: none;
 }
 
-/* ------ */
+/* || general styling || */
 
 * {
     color: var(--text-color);
@@ -161,7 +161,7 @@ html {
     color: var(--accent-color);
 }
 
-/* ------ Settings menu */
+/* || settings menu styling || */
 
 .sidenav {
     height: 100%;
@@ -359,7 +359,94 @@ html {
     }
 }
 
-/* ------ Tasks input field */
+/* || modal styling || */
+
+.modal {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--accent-color);
+    background-color: var(--accent-color-low-opacity);
+}
+
+.modal-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.close {
+    color: var(--text-color);
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.close span {
+    font-size: 18px;
+}
+
+.close:hover,
+.close:focus {
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.close span:hover,
+.close span:focus {
+    color: var(--accent-color);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    z-index: 3;
+    background-color: transparent;
+    overflow:hidden;
+}
+
+.modal-header img {
+    margin-bottom: -20px;
+    margin-left: 100px;;
+    max-height: 450px;
+    z-index: 1;
+}
+
+.modal-body {
+    padding: 2px 16px;
+    background-color: var(--menu-background-color);
+    color: var(--menu-text-color);
+    z-index: 4;
+}
+
+.modal-body p {
+    color: var(--menu-text-color);
+    line-height: 1.6;
+    z-index: inherit;
+}
+
+.modal-footer {
+    justify-content: space-between;
+    padding: 0 15px;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    z-index: 3;
+}
+
+.modal-footer p {
+    padding: 5px 0;
+    margin: 0;
+    color: var(--text-color);
+}
+
+
+/* || tasks input styling || */
 
 .inp {
     position: relative;
@@ -460,7 +547,7 @@ html {
     }
 }
 
-/* ------ Tasks list */
+/* || tasks styling || */
 
 ul li {
     display: flex;
@@ -512,7 +599,7 @@ ul li span:hover {
     opacity: 70%;
 }
 
-/* ------ Bottom navigation */
+/* || bottom nav styling || */
 
 .nav-container {
     display: flex;

@@ -12,6 +12,7 @@ const response = document.getElementById('response');
 const modal = document.getElementById("myModal");
 const modalContent = document.getElementById('myModalContent');
 const btn = document.getElementById("myBtn");
+const btnTwo = document.getElementById("myBtn2");
 const closeModalBtn = document.getElementsByClassName("close")[0];
 
 const gradientToFadeOut = document.getElementById('gradient-to-fade');
@@ -20,8 +21,6 @@ const darkThemeSelector = document.getElementById('dark-theme-selector')
 const sunsetThemeSelector = document.getElementById('sunset-theme-selector')
 
 const supportersArray = [];
-// const noSupporterSelector = document.getElementById('no-supporter-selector');
-// const kanaSupporterSelector = document.getElementById('kana-supporter-selector');
 
 let taskList = [];
 let statusList = [];
@@ -30,10 +29,31 @@ let currentTheme = 'light';
 let currentSupporter = '';
 let supporterChosen = '';
 let noSupporter = false;
+let pos = 0;
+let opa = 0;
+let incrementer = 1;
+const topLimit = 0;
+const bottomLimit = 300;
 // let tooltipSwitchStatus = tooltipSwitch.addEventListener('click', e => {console.log(tooltipSwitch.checked);});
 // let logseqSwitchStatus = logseqSwitch.addEventListener('click', e => {console.log(logseqSwitch.checked);});
 
-// ------ Supporters management
+// || Debugging buttons ||
+
+// Modal
+btn.onclick = function() {
+    if (noSupporter === true) {
+        alert("supporter none selected");
+    } else {
+        supporterPopUp(currentSupporter.baseState, currentSupporter.greet(), '');
+    }
+}
+
+// Clear local storage
+btnTwo.onclick = function() {
+    localStorage.clear();
+}
+
+// || supporters management ||
 
 // supporters factory function
 function createSupporter(name, baseState, wellDoneState, concernedState, calloutState) {
@@ -57,6 +77,9 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
         },
         callOutMessage () {
             return `Careful! Creating too many tasks can be stressful and set you up for failure!`
+        },
+        nothingToCopyMessage () {
+            return `There are no tasks to copy.`
         }
     };
     supportersArray.push(supporter);
@@ -70,23 +93,93 @@ const kana = createSupporter('Kana',
                             'assets/kana/kana_concerned.png',
                             'assets/kana/kana_callOut.png')
 
-// Debugging: Opening the modal
-btn.onclick = function() {
-    supporterAvatar.src = currentSupporter.baseState;
-    dialogBox.innerHTML = currentSupporter.greet();
+// supporter selection
+function selectSupporter(supporterChosen) {
+    if (supporterChosen === 'noSupporter') {
+        noSupporter = true;
+        currentSupporter = '';
+        saveSupporterStatus();
+        removeSupporter();
+        alert("You turned off the supporter option.");
+        closeModal();
+    } else {
+        supporterPopUp(supporterChosen.baseState, supporterChosen.greet(), 'Accept ' + supporterChosen.name);
+        response.onclick = function() {
+            currentSupporter = supporterChosen;
+            noSupporter = false;
+            console.log(currentSupporter.name);
+            saveSupporter();
+            saveSupporterStatus();
+            closeModal();
+        }
+    }
+}
+
+function supporterPopUp(state, modalMessage, responseMessage) {
+    supporterAvatar.src = state;
+    dialogBox.innerHTML = modalMessage;
+    response.innerHTML = responseMessage;
     openModal();
 }
 
-// Closing the modal
-closeModalBtn.onclick = function() {
-    closeModal();
+// || local storage management ||
+
+function saveSupporterStatus() {
+    localStorage.setItem("supporterStatus", noSupporter);
 }
 
-let pos = 0;
-let opa = 0;
-let incrementer = 1;
-const topLimit = 0;
-const bottomLimit = 300;
+function loadSupporterStatus() {
+    const savedSupporterStatus = localStorage.getItem("supporterStatus");
+    if (savedSupporterStatus) {
+        noSupporter = savedSupporterStatus;
+    }
+}
+
+function saveSupporter() {
+    localStorage.setItem("supporterName", currentSupporter.name);
+}
+
+function removeSupporter() {
+    const savedSupporterName = localStorage.getItem("supporterName");
+    if (savedSupporterName) {
+        localStorage.removeItem("supporterName");
+    }
+}
+
+function loadSupporter() {
+    const savedSupporterName = localStorage.getItem("supporterName");
+    if (savedSupporterName) {
+        currentSupporter = findSupporterByName(savedSupporterName);
+    }
+}
+
+function findSupporterByName(name) {
+    for (const supporter of supportersArray) {
+        if (supporter.name === name) {
+            return supporter;
+        }
+    }
+    return null;
+}
+
+function saveTasks() {
+    localStorage.setItem("data", listContainer.innerHTML);
+}
+
+function loadTasks() {
+    listContainer.innerHTML = localStorage.getItem("data");
+}
+
+loadSupporterStatus();
+console.log(noSupporter);
+
+loadSupporter()
+console.log(currentSupporter.name);
+
+loadTasks();
+console.log(listContainer.innerHTML);
+
+// || modal management ||
 
 function openModal() {
     pos = -300;
@@ -103,7 +196,6 @@ function openModal() {
             clearInterval(slideInFadeInAnimation);
         }
     }
-
 
     modal.style.display = "block";
     const slideInFadeInAnimation = setInterval(slideInFadeIn, 15);
@@ -138,51 +230,13 @@ function closeModal() {
     }, 350);
 }
 
-
-// Selecting the supporter
-function selectSupporter(supporterChosen) {
-    if (supporterChosen === 'noSupporter') {
-        noSupporter = true;
-        currentSupporter = '';
-        alert("You turned off the supporter option.");
-    } else {
-        supporterAvatar.src = supporterChosen.baseState;
-        dialogBox.innerHTML = supporterChosen.greet();
-        response.innerHTML = 'Accept ' + supporterChosen.name;
-        openModal();
-        response.onclick = function() {
-            currentSupporter = supporterChosen;
-            console.log(currentSupporter.name);
-            closeModal();
-        }
-    }
-    saveSupporter();
+// Button to close the modal
+closeModalBtn.onclick = function() {
+    closeModal();
 }
 
-function saveSupporter() {
-    localStorage.setItem("supporterName", currentSupporter.name);
-}
+// || themes management ||
 
-function loadSupporter() {
-    const savedSupporterName = localStorage.getItem("supporterName");
-    if (savedSupporterName) {
-        currentSupporter = findSupporterByName(savedSupporterName);
-    }
-}
-
-function findSupporterByName(name) {
-    for (const supporter of supportersArray) {
-        if (supporter.name === name) {
-            return supporter;
-        }
-    }
-    return null;
-}
-
-loadSupporter()
-console.log(currentSupporter.name);
-
-// ------ Themes
 lightThemeSelector.addEventListener('click', e => {
     gradientToFadeOut.setAttribute('data-theme', currentTheme);
     gradientToFadeOut.classList.add('gradient-background');
@@ -232,24 +286,23 @@ function gradientFadeOut() {
     }
 }
 
+// || tasks management ||
 
-// ------ Tasks management
 function addTask() {
     if (inputBox.value === '') {
-        supporterAvatar.src = currentSupporter.calloutStateState;
-        dialogBox.innerHTML = currentSupporter.writeSomethingMessage();
-        response.innerHTML = '';
-        openModal();
-        setTimeout(() => {
-            closeModal();
-        }, 2000);
+        if (noSupporter === false) {
+            supporterPopUp(currentSupporter.calloutState, currentSupporter.writeSomethingMessage(), '');
+            setTimeout(() => {
+                closeModal();
+            }, 2000);
+        } else {
+            alert ('You must enter somthing first.');
+        }
     } else {
         let li = document.createElement("LI");
         li.innerHTML = inputBox.value;
         taskList.push(inputBox.value);
         statusList.push(false);
-        // console.log(taskList);
-        // console.log(statusList);
         listContainer.appendChild(li);
         let span = document.createElement("SPAN");
         span.innerHTML = "\u00d7";
@@ -258,7 +311,7 @@ function addTask() {
         taskCounterText.innerText = taskCounter;
     }
     inputBox.value = '';
-    saveData();
+    saveTasks();
 }
 
 // click on the check mark to add the task
@@ -278,33 +331,28 @@ listContainer.addEventListener("click", e => {
         let taskText = e.target.innerText.slice(0, -2);
         let taskIndex = taskList.indexOf(taskText);
         statusList[taskIndex] = !statusList[taskIndex];
-        saveData();
-        supporterAvatar.src = currentSupporter.wellDoneState;
-        dialogBox.innerHTML = currentSupporter.wellDoneMessage();
-        response.innerHTML = '';
-        openModal();
-        setTimeout(() => {
-            closeModal();
-        }, 2000);
+        saveTasks();
+        if (noSupporter === false) {
+            supporterPopUp(currentSupporter.wellDoneState, currentSupporter.wellDoneMessage(), '')
+            setTimeout(() => {
+                closeModal();
+            }, 2000);
+        }
     } else if (e.target.tagName === "LI" && e.target.classList.contains('checked')) {
         e.target.classList.remove("checked");
         let taskText = e.target.innerText.slice(0, -2);
         let taskIndex = taskList.indexOf(taskText);
         statusList[taskIndex] = !statusList[taskIndex];
-        saveData();
+        saveTasks();
     } else if (e.target.tagName === "SPAN") {
-        setTimeout(() => {
-            let taskText = e.target.parentElement.innerText.slice(0, -2);
-            let taskIndex = taskList.indexOf(taskText);
-            taskList.splice(taskIndex, 1);
-            statusList.splice(taskIndex, 1);
-            // console.log(taskList);
-            // console.log(statusList);
-            e.target.parentElement.remove();
-            taskCounter--;
-            taskCounterText.innerText = taskCounter;
-            saveData();
-        }, 0); //add delay later after adding the supporter popup
+        let taskText = e.target.parentElement.innerText.slice(0, -2);
+        let taskIndex = taskList.indexOf(taskText);
+        taskList.splice(taskIndex, 1);
+        statusList.splice(taskIndex, 1);
+        e.target.parentElement.remove();
+        taskCounter--;
+        taskCounterText.innerText = taskCounter;
+        saveTasks();
     }
 }, false);
 
@@ -316,38 +364,28 @@ function clearAllTasks() {
     statusList = [];
     taskCounter = 0;
     taskCounterText.innerText = taskCounter;
-    saveData();
+    saveTasks();
 }
 
-// save the tasks on the local storage
-function saveData() {
-    localStorage.setItem("data", listContainer.innerHTML);
-}
+// || settings menu & bottom nav management ||
 
-// retrieve the tasks from the local storage and display them
-function showTask() {
-    listContainer.innerHTML = localStorage.getItem("data");
-}
+let escapeSettingsMenu = '';
 
-showTask();
-
-// ------ Bottom nav, Side Nav and settings management
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
+    escapeSettingsMenu = document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') {
+            if (document.getElementById("mySidenav").style.width === "100%") {
+                closeNav();
+            } 
+        }
+    });
 }
 
 function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
+    document.removeEventListener('keydown', escapeSettingsMenu);
 }
-
-// press the esc key to close side navigation
-document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-        if (document.getElementById("mySidenav").style.width === "100%") {
-            closeNav();
-        } 
-    }
-});
 
 // Copy the tasks in markdown to clipboard
 function exportMarkdown() {
@@ -361,7 +399,14 @@ function exportMarkdown() {
         }
     };
     if (markdownArr.length === 0) {
-        alert("There is nothing to copy!");
+        if (noSupporter === false) {
+            supporterPopUp(currentSupporter.calloutState, currentSupporter.nothingToCopyMessage(), '');
+            setTimeout(() => {
+                closeModal();
+            }, 2000);
+        } else {
+            alert("There are no tasks to copy!");
+        }
     } else {
         let exportArr = [];
         for (i = 0; i < markdownArr.length; i += 1) {

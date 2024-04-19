@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Supporter Todo-App</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modal.css">
     <link rel="stylesheet" href="switch.css">
-    <link rel="stylesheet" href="./node_modules/normalize.css">
+    <link rel="stylesheet" href="./node_modules/normalize.css/normalize.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -56,8 +55,6 @@
                                 <img src="./assets/supporterNone.png">
                                 <div class="animate-normal">None</div>
                             </button>
-                        </div>
-                        <div class="supporters-thumbs">
                             <button id="" onclick="">
                                 <img src="./assets/supporterNone.png">
                                 <div class="animate-normal">None</div>
@@ -78,7 +75,7 @@
                 <h1 class="app-title">To<span>Dos</span> for To<span>Day</span></span> (<span id="counter">0</span>)</h1>
             </div>
             <div class="row flex-align-items-center">
-                <label for="inp" class="inp">
+                <label for="input-box" class="inp">
                     <input type="text" id="input-box" placeholder="Enter your task" pattern=".{6,}" required>
                     <svg width="280px" height="18px" viewBox="0 0 280 18" class="inp-border">
                         <path d="M0,12 L223.166144,12 C217.241379,12 217.899687,12 225.141066,12 C236.003135,12 241.9279,12 249.827586,12 C257.727273,12 264.639498,12 274.514107,12 C281.097179,12 281.755486,12 276.489028,12"></path>
@@ -105,7 +102,8 @@
                     </button>
                 </div>
             </div>
-            <button class="hide" id="myBtn" onclick="openModal()">Open Modal</button>
+            <button class="" id="myBtn">Open Modal</button>
+            <button class="" id="myBtn2">Clear localStorage</button>
             <div id="myModal" class="modal">
                 <div id="myModalContent" class="modal-content">
                     <div class="modal-header">
