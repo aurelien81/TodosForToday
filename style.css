@@ -342,7 +342,7 @@ html {
 }
 
 .toggle-checkbox:checked + .toggle-switch {
-    background: #56c080;
+    background: #2196F3;
 }
 
 .toggle-checkbox:checked + .toggle-switch:before {
@@ -765,3 +765,40 @@ ul li span:hover {
     }
 }
 
+/* || alerts styling || */
+
+.alert {
+    display: none;
+    position: absolute;
+    z-index: 5;
+    padding: 20px;
+    top: 65px;
+    left: 65px;
+    width: 60%;
+    border-radius: 15px;
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    opacity: 1;
+    transition: opacity 0.6s;
+}
+
+.alert-message {
+    color: white;
+    font-family: var(--title-font);
+}
+
+.alert-closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.alert-closebtn:hover {
+    color: black;
+}

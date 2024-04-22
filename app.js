@@ -1,5 +1,7 @@
 const todoAppContainer = document.getElementById('todo-app-container');
-const taskCounterText = document.getElementById('counter');
+const alertBox = document.getElementById("alert-box");
+const alertMessage = document.getElementById("alert-message-content");
+const taskCounterText = document.getElementById("counter");
 const inputBox = document.getElementById('input-box');
 const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
@@ -15,12 +17,11 @@ const gradientToFadeOut = document.getElementById('gradient-to-fade');
 const lightThemeSelector = document.getElementById('light-theme-selector')
 const darkThemeSelector = document.getElementById('dark-theme-selector')
 const sunsetThemeSelector = document.getElementById('sunset-theme-selector')
-// const exportSwitch = document.getElementById('export-switch');
+const exportSwitch = document.getElementById('export-switch');
 
 const supportersArray = [];
 
 let taskList = [];
-let statusList = [];
 let taskCounter = 0;
 let currentTheme = 'light';
 let currentSupporter = '';
@@ -40,7 +41,7 @@ const btnTwo = document.getElementById("myBtn2");
 // modal
 btn.onclick = function() {
     if (noSupporter === true) {
-        alert("supporter none selected");
+        showAlert("Supporter none selected");
     } else {
         supporterPopUp(currentSupporter.baseState, currentSupporter.greet(), '');
     }
@@ -89,7 +90,31 @@ const kana = createSupporter('Kana',
                             'assets/kana/kana_base.png',
                             'assets/kana/kana_wellDone.png',
                             'assets/kana/kana_concerned.png',
-                            'assets/kana/kana_callOut.png')
+                            'assets/kana/kana_callOut.png');
+
+const junho = createSupporter('Junho',
+                            'assets/junho/junho_base.png',
+                            'assets/junho/junho_base.png',
+                            'assets/junho/junho_base.png',
+                            'assets/junho/junho_base.png');
+
+const noemie = createSupporter('Noemie',
+                            'assets/noemie/noemie_base.png',
+                            'assets/noemie/noemie_wellDone.png',
+                            'assets/noemie/noemie_base.png',
+                            'assets/noemie/noemie_base.png');
+
+const nicolau = createSupporter('Nicolau',
+                            'assets/nicolau/nicolau_base.png',
+                            'assets/nicolau/nicolau_base.png',
+                            'assets/nicolau/nicolau_base.png',
+                            'assets/nicolau/nicolau_base.png');
+
+const nova = createSupporter('Nova',
+                            'assets/nova/nova_base.png',
+                            'assets/nova/nova_base.png',
+                            'assets/nova/nova_base.png',
+                            'assets/nova/nova_base.png');
 
 // supporter selection
 function selectSupporter(supporterChosen) {
@@ -98,7 +123,7 @@ function selectSupporter(supporterChosen) {
         currentSupporter = '';
         saveSupporterStatus();
         removeSupporter();
-        alert("You turned off the supporter option.");
+        showAlert("You turned off the supporter option.");
         closeModal();
     } else {
         supporterPopUp(supporterChosen.baseState, supporterChosen.greet(), 'Accept ' + supporterChosen.name);
@@ -133,6 +158,26 @@ function loadSupporterStatus() {
     }
 }
 
+function saveExportStatus() {
+    if (exportSwitch.checked == true) {
+        localStorage.setItem("exportStatus", "checked");
+    } else {
+        localStorage.setItem("exportStatus", "not-checked"); 
+    }
+    console.log(exportSwitch.checked)
+}
+
+function loadExportStatus() {
+    const savedExportStatus = localStorage.getItem("exportStatus");
+    if (savedExportStatus && savedExportStatus == "checked") {
+        exportSwitch.checked = true;
+    } else if (savedExportStatus && savedExportStatus == "not-checked") {
+        exportSwitch.checked = false;
+    } else if (!savedExportStatus) {
+        exportSwitch.checked = false;
+    }
+}
+
 function saveSupporter() {
     localStorage.setItem("supporterName", currentSupporter.name);
 }
@@ -161,24 +206,24 @@ function findSupporterByName(name) {
 }
 
 function saveTasks() {
-    localStorage.setItem("data", listContainer.innerHTML);
+    localStorage.setItem("tasks", listContainer.innerHTML);
 }
 
 function loadTasks() {
-    listContainer.innerHTML = localStorage.getItem("data");
+    listContainer.innerHTML = localStorage.getItem("tasks");
 }
 
-function saveExportStatus(){
-    const checkbox = document.getElementById('export-switch');
-    localStorage.setItem('export-switch', checkbox.checked);
+function saveTaskList() {
+    let taskListStringSave = JSON.stringify(taskList);
+    localStorage.setItem("task-list", taskListStringSave);
 }
 
-function loadExportStatus(){    
-    var checked = JSON.parse(localStorage.getItem('export-switch'));
-    document.getElementById("export-switch").checked = checked;
+function loadTaskList() {
+    if (localStorage.getItem("task-list")) {
+    let taskListStringLoad = localStorage.getItem("task-list");
+    taskList = JSON.parse(taskListStringLoad);
+    }
 }
-
-// saveExportStatus();
 
 loadSupporterStatus();
 console.log(noSupporter);
@@ -187,10 +232,13 @@ loadSupporter()
 console.log(currentSupporter.name);
 
 loadTasks();
-console.log(listContainer.innerHTML);
+console.log("List container:", listContainer.innerHTML);
 
-// loadExportStatus()
-// console.log(exportSwitch.checked);
+loadTaskList()
+console.log("Task List:", taskList);
+
+loadExportStatus()
+console.log(exportSwitch.checked);
 
 // || modal management ||
 
@@ -309,13 +357,13 @@ function addTask() {
                 closeModal();
             }, 2000);
         } else {
-            alert ('You must enter somthing first.');
+            showAlert("You must enter somthing first.");
         }
     } else {
         let li = document.createElement("LI");
+        li.classList.add("listItem");
         li.innerHTML = inputBox.value;
         taskList.push(inputBox.value);
-        statusList.push(false);
         listContainer.appendChild(li);
         let span = document.createElement("SPAN");
         span.innerHTML = "\u00d7";
@@ -325,6 +373,7 @@ function addTask() {
     }
     inputBox.value = '';
     saveTasks();
+    saveTaskList();
 }
 
 // click on the check mark to add the task
@@ -342,8 +391,6 @@ listContainer.addEventListener("click", e => {
     if (e.target.tagName === "LI" && !e.target.classList.contains('checked')) {
         e.target.classList.add("checked");
         let taskText = e.target.innerText.slice(0, -2);
-        let taskIndex = taskList.indexOf(taskText);
-        statusList[taskIndex] = !statusList[taskIndex];
         saveTasks();
         if (noSupporter === false) {
             supporterPopUp(currentSupporter.wellDoneState, currentSupporter.wellDoneMessage(), '')
@@ -354,18 +401,15 @@ listContainer.addEventListener("click", e => {
     } else if (e.target.tagName === "LI" && e.target.classList.contains('checked')) {
         e.target.classList.remove("checked");
         let taskText = e.target.innerText.slice(0, -2);
-        let taskIndex = taskList.indexOf(taskText);
-        statusList[taskIndex] = !statusList[taskIndex];
         saveTasks();
+        saveTaskList();
     } else if (e.target.tagName === "SPAN") {
         let taskText = e.target.parentElement.innerText.slice(0, -2);
-        let taskIndex = taskList.indexOf(taskText);
-        taskList.splice(taskIndex, 1);
-        statusList.splice(taskIndex, 1);
         e.target.parentElement.remove();
         taskCounter--;
         taskCounterText.innerText = taskCounter;
         saveTasks();
+        saveTaskList()
     }
 }, false);
 
@@ -374,19 +418,15 @@ function clearAllTasks() {
     let allTasks = document.querySelectorAll('li');
     allTasks.forEach(li => li.remove());
     taskList = [];
-    statusList = [];
     taskCounter = 0;
     taskCounterText.innerText = taskCounter;
     saveTasks();
+    saveTaskList();
 }
 
 // || settings menu & bottom nav management ||
 
-let escapeSettingsMenu = '';
-
-// function checkUncheck() {
-//     let i = 0;
-// }
+let escapeSettingsMenu;
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
@@ -406,25 +446,26 @@ function closeNav() {
 
 // Copy the tasks in markdown to clipboard
 function exportMarkdown() {
-    // Get the text field
     let markdownArr = [];
+    const listItems = document.querySelectorAll(".listItem");
     if (exportSwitch.checked === false) {
-        for (i = 0; i < statusList.length; i += 1) {
-            if (statusList[i] === false) {
-                markdownArr[i] = '- [ ] ';
-            } else {
+        for (i = 0; i < taskList.length; i += 1) {
+            if (listItems[i].classList.contains("checked")) {
                 markdownArr[i] = '- [x] ';
-                }
-            };
+            } else {
+                markdownArr[i] = '- [ ] ';
+            }
+        };
     } else {
         for (i = 0; i < statusList.length; i += 1) {
-            if (statusList[i] === false) {
-                markdownArr[i] = '\nTODO ';
-            } else {
+            if (listItems[i].classList.contains("checked")) {
                 markdownArr[i] = '\nDONE ';
-                }
-            };
+            } else {
+                markdownArr[i] = '\nTODO ';
+            }
+        };
     }
+
     if (markdownArr.length === 0) {
         if (noSupporter === false) {
             supporterPopUp(currentSupporter.calloutState, currentSupporter.nothingToCopyMessage(), '');
@@ -432,7 +473,7 @@ function exportMarkdown() {
                 closeModal();
             }, 2000);
         } else {
-            alert("There are no tasks to copy!");
+            showAlert("There are no tasks to copy!");
         }
     } else {
         let exportArr = [];
@@ -444,8 +485,21 @@ function exportMarkdown() {
         navigator.clipboard.writeText(copyText).then(() => {
             markdownArr = [];
             exportArr = [];
-            alert("Copied to clipboard");
+            showAlert("Copied to clipboard");
         });
     }
 }
 
+// || alerts management ||
+
+function showAlert(message) {
+    alertMessage.innerHTML = message;
+    alertBox.style.display = "block";
+    setTimeout(() => {
+        closeAlert();
+    }, 2000);
+}
+
+function closeAlert() {
+    alertBox.style.display = "none";
+}

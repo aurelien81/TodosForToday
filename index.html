@@ -13,6 +13,10 @@
     <div class="container flex-align-items-center" id="app-container">
         <div class="temp-gradient" id="gradient-to-fade"></div>
         <div class="todo-app" id="todo-app-container">
+            <div class="alert" id="alert-box">
+                <span class="alert-closebtn" onclick="closeAlert()">&times;</span>  
+                <div class="alert-message" id="alert-message-content"></div>
+            </div>
             <div id="mySidenav" class="sidenav">
                 <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                 <div class="menu-items-container">
@@ -31,7 +35,7 @@
                     <div class="toggle-items-container">
                         <label for="export-switch" class="toggle">
                             <span class="toggle-label">Markdown</span>
-                            <input class="toggle-checkbox" type="checkbox" id="export-switch">
+                            <input class="toggle-checkbox" type="checkbox" id="export-switch" onclick="saveExportStatus()">
                             <div class="toggle-switch"></div>
                             <span class="toggle-label">TODO/DONE</span>
                         </label>
@@ -49,21 +53,21 @@
                                 <img src="./assets/kana/kana_thumb.png">
                                 <div class="animate-normal">Kana</div>
                             </button>
-                            <button id="" onclick="">
+                            <button id="junho-supporter-selector" onclick="selectSupporter(junho)">
+                                <img src="./assets/junho/junho_thumb.png">
+                                <div class="animate-normal">Junho</div>
+                            </button>
+                            <button id="noemie-supporter-selector" onclick="selectSupporter(noemie)">
                                 <img src="./assets/noemie/noemie_thumb.png">
                                 <div class="animate-normal">Noemie</div>
                             </button>
-                            <button id="" onclick="">
-                                <img src="./assets/supporterNone.png">
-                                <div class="animate-normal">None</div>
+                            <button id="nicolau-supporter-selector" onclick="selectSupporter(nicolau)">
+                                <img src="./assets/nicolau/nicolau_thumb.png">
+                                <div class="animate-normal">Nicolau</div>
                             </button>
-                            <button id="" onclick="">
-                                <img src="./assets/supporterNone.png">
-                                <div class="animate-normal">None</div>
-                            </button>
-                            <button id="" onclick="">
-                                <img src="./assets/supporterNone.png">
-                                <div class="animate-normal">None</div>
+                            <button id="nova-supporter-selector" onclick="selectSupporter(nova)">
+                                <img src="./assets/nova/nova_thumb.png">
+                                <div class="animate-normal">Nova</div>
                             </button>
                         </div>
                     </div>
