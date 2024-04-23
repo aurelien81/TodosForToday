@@ -1,7 +1,6 @@
 const todoAppContainer = document.getElementById('todo-app-container');
 const alertBox = document.getElementById("alert-box");
 const alertMessage = document.getElementById("alert-message-content");
-const taskCounterText = document.getElementById("counter");
 const inputBox = document.getElementById('input-box');
 const inputCheck = document.getElementById('add-task-check');
 const listContainer = document.getElementById('list-container');
@@ -10,6 +9,7 @@ const modal = document.getElementById("myModal");
 const modalContent = document.getElementById('myModalContent');
 const supporterAvatar = document.getElementById('supporter-avatar');
 const dialogBox = document.getElementById('dialog-box');
+const welcomeMessage = document.getElementById('welcome-message');
 const response = document.getElementById('response');
 const closeModalBtn = document.getElementsByClassName("close")[0];
 
@@ -19,7 +19,6 @@ const exportSwitch = document.getElementById('export-switch');
 const supportersArray = [];
 
 let taskList = [];
-let taskCounter = 0;
 let currentTheme = 'light';
 let currentSupporter = '';
 let supporterChosen = '';
@@ -41,6 +40,9 @@ const btnTwo = document.getElementById("myBtn2");
 btn.onclick = function() {
     if (noSupporter === true) {
         showAlert("Supporter none selected");
+        setTimeout(() => {
+            closeAlert();
+        }, 2000);
     } else {
         supporterPopUp(currentSupporter.baseState, currentSupporter.greet(), '');
     }
@@ -51,6 +53,34 @@ btnTwo.onclick = function() {
     localStorage.clear();
 }
 
+// || First open management ||
+
+function veryFirstOpen() {
+    const alreadyOpened = localStorage.getItem('veryFirstOpenShown');
+    const openedMessage = 'welcome message shown'
+    if (!alreadyOpened) {
+        welcomeMessage.style.display = 'block';
+        setTimeout(() => {
+            supporterPopUp("", "", "I understand");
+        }, 2000);
+        response.onclick = function() {
+        closeModal();
+        welcomeMessage.style.display = 'none';
+        openNav();
+        setTimeout(() => {
+            showAlert("Choose your supporter");
+        }, 1000);
+        setTimeout(() => {
+            closeAlert();
+        }, 4000);
+        }
+        localStorage.setItem('veryFirstOpenShown', openedMessage);
+    }
+    
+}
+
+veryFirstOpen();
+
 // || supporters management ||
 
 // supporters factory function
@@ -58,7 +88,7 @@ function createSupporter(name,
                         baseState,
                         wellDoneState,
                         concernedState,
-                        calloutState,
+                        callOutState,
                         personalGreeting,
                         personalCallOut,
                         personalWellDone, 
@@ -69,7 +99,7 @@ function createSupporter(name,
         baseState: baseState,
         wellDoneState: wellDoneState,
         concernedState: concernedState,
-        calloutState: calloutState,
+        callOutState: callOutState,
         greet() {
             return `${personalGreeting}! My name is ${name}. Happy to meet you!`;
         },
@@ -157,6 +187,9 @@ function selectSupporter(supporterChosen) {
         saveSupporterStatus();
         removeSupporter();
         showAlert("You turned off the supporter option.");
+        setTimeout(() => {
+            closeAlert();
+        }, 2000);
         closeModal();
     } else {
         supporterPopUp(supporterChosen.baseState, supporterChosen.greet(), 'Accept ' + supporterChosen.name);
@@ -366,6 +399,9 @@ function addTask() {
             }, 2000);
         } else {
             showAlert("You must enter something first.");
+            setTimeout(() => {
+                closeAlert();
+            }, 2000);
         }
     } else {
         let li = document.createElement("LI");
@@ -376,10 +412,9 @@ function addTask() {
         let span = document.createElement("SPAN");
         span.innerHTML = "\u00d7";
         li.appendChild(span);
-        taskCounter++;
-        taskCounterText.innerText = taskCounter;
     }
     inputBox.value = '';
+    updateTaskTextColor();
     saveTasks();
     saveTaskList();
 }
@@ -399,7 +434,6 @@ listContainer.addEventListener("click", e => {
     if (e.target.tagName === "LI" && !e.target.classList.contains('checked')) {
         e.target.classList.add("checked");
         let taskText = e.target.innerText.slice(0, -2);
-        saveTasks();
         if (noSupporter === false) {
             supporterPopUp(currentSupporter.wellDoneState, currentSupporter.wellDoneMessage(), '')
             setTimeout(() => {
@@ -409,36 +443,65 @@ listContainer.addEventListener("click", e => {
     } else if (e.target.tagName === "LI" && e.target.classList.contains('checked')) {
         e.target.classList.remove("checked");
         let taskText = e.target.innerText.slice(0, -2);
-        saveTasks();
-        saveTaskList();
     } else if (e.target.tagName === "SPAN") {
         let taskText = e.target.parentElement.innerText.slice(0, -2);
         e.target.parentElement.remove();
-        taskCounter--;
-        taskCounterText.innerText = taskCounter;
-        saveTasks();
-        saveTaskList()
     }
+    updateTaskTextColor();
+    saveTasks();
+    saveTaskList();
 }, false);
+
+// update text color when there are more than 5 tasks
+function updateTaskTextColor() {
+    const allTasks = document.querySelectorAll('li');
+    let checkedTaskCount = 0;
+
+    allTasks.forEach(task => {
+        if (task.classList.contains('checked')) {
+            checkedTaskCount++;
+        }
+    });
+
+    allTasks.forEach((task, index) => {
+        if (index - checkedTaskCount >= 5) {
+            task.classList.add('danger-zone');
+            const today = new Date().toDateString();
+            const modalShownToday = localStorage.getItem('modalShownToday');
+            if (!modalShownToday || modalShownToday !== today) {
+                if (noSupporter === false) {
+                    supporterPopUp(currentSupporter.callOutState, currentSupporter.callOutMessage(), 'I understand');
+                    response.onclick = function() {
+                    closeModal();
+                    }
+                } else {
+                    showAlert("Remember that those tasks are only for today. Don't set yourself up for failure by adding too many!");                    
+                }
+                localStorage.setItem('modalShownToday', today);
+            }
+        } else {
+            task.classList.remove('danger-zone');
+        }
+    });
+}
+
 
 // clear all the tasks in the list
 function clearAllTasks() {
     let allTasks = document.querySelectorAll('li');
     allTasks.forEach(li => li.remove());
     taskList = [];
-    taskCounter = 0;
-    taskCounterText.innerText = taskCounter;
     saveTasks();
     saveTaskList();
 }
 
 // || settings menu & bottom nav management ||
 
-let escapeSettingsMenu;
+// let escapeSettingsMenu;
 
 function openNav() {
     document.getElementById("mySidenav").style.width = "100%";
-    escapeSettingsMenu = document.addEventListener('keydown', e => {
+    let escapeSettingsMenu = document.addEventListener('keydown', e => {
         if (e.key === 'Escape') {
             if (document.getElementById("mySidenav").style.width === "100%") {
                 closeNav();
@@ -482,6 +545,9 @@ function exportMarkdown() {
             }, 2000);
         } else {
             showAlert("There are no tasks to copy!");
+            setTimeout(() => {
+                closeAlert();
+            }, 2000);
         }
     } else {
         let exportArr = [];
@@ -494,6 +560,9 @@ function exportMarkdown() {
             markdownArr = [];
             exportArr = [];
             showAlert("Copied to clipboard");
+            setTimeout(() => {
+                closeAlert();
+            }, 2000);
         });
     }
 }
@@ -503,9 +572,6 @@ function exportMarkdown() {
 function showAlert(message) {
     alertMessage.innerHTML = message;
     alertBox.style.display = "block";
-    setTimeout(() => {
-        closeAlert();
-    }, 2000);
 }
 
 function closeAlert() {
