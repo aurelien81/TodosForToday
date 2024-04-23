@@ -1,0 +1,99 @@
+:root {
+    --main-color: #fff;
+    --accent-color: rgba(41, 94, 208, 1);
+    --accent-color-low-opacity: rgba(41, 94, 208, .7);
+    --text-color: #232323;
+    --background-color: #fff;
+    --menu-text-color: #F5F5DC;
+    --menu-background-color: rgba(9, 33, 52, .95);
+    --mini-nav-hover: rgba(240, 241, 244, 1);
+    --mini-nav-hover-border: none;
+    --mini-nav-border: 0.5px solid rgba(146, 152, 176, 0.4);
+    --title-font: 'Avenir';
+    --content-font: 'Merriweather';
+    --background-gradient: radial-gradient(circle, #153677, #4e085f);
+}
+
+:root {
+    background: var(--background-gradient);
+}
+
+html[data-theme='light'] {
+    --main-color: #fff;
+    --accent-color: rgba(41, 94, 208, 1);
+    --accent-color-low-opacity: rgba(41, 94, 208, .7);
+    --text-color: #232323;
+    --background-color: #fff;
+    --menu-text-color: #F5F5DC;
+    --menu-background-color: rgba(9, 33, 52, 1);
+    --mini-nav-hover: rgba(240, 241, 244, 1);
+    --mini-nav-hover-border: none;
+    --mini-nav-border: 0.5px solid rgba(146, 152, 176, 0.4);
+    --title-font: 'Avenir';
+    --content-font: 'Merriweather';
+    --background-gradient: radial-gradient(circle, #4e085f, #153677);
+}
+
+.gradient-background[data-theme='light'] {
+    background: radial-gradient(circle, #4e085f, #153677);
+}
+
+html[data-theme='dark'] {
+    --main-color: #23262e;
+    --accent-color: rgba(218, 165, 7, 1);
+    --accent-color-low-opacity: rgba(218, 165, 7, .7);
+    --text-color: #F4F6FB;
+    --background-color: #23262e;
+    --menu-text-color: #F5F5DC;
+    --menu-background-color: rgba(15, 15, 21, 1);
+    --mini-nav-hover: transparent;
+    --mini-nav-hover-border: 0.5px solid rgba(240, 241, 244, 1);
+    --mini-nav-border: 0.5px solid rgba(146, 152, 176, 0.4);
+    --title-font: 'Avenir';
+    --content-font: 'Merriweather';
+    --background-gradient: radial-gradient(circle, #4B4306, #1A273D);
+}
+.gradient-background[data-theme='dark'] {
+    background: radial-gradient(circle, #4B4306, #1A273D);
+}
+
+html[data-theme='sunset'] {
+    --main-color: #FEC494;
+    --accent-color: rgba(166, 195, 214, 1);
+    --accent-color-low-opacity: rgba(166, 195, 214, .7);
+    --text-color: #232323;
+    --background-color: #FFFEEB;
+    --menu-text-color: #F5F5DC;
+    --menu-background-color: rgba(80, 135, 170, 1);
+    --mini-nav-hover: rgba(254, 240, 205, 1);
+    --mini-nav-hover-border: none;
+    --mini-nav-border: 0.5px solid rgba(146, 152, 176, 0.4);
+    --title-font: 'Avenir';
+    --content-font: 'Merriweather';
+    --background-gradient: radial-gradient(circle, #FEC494, #375A72);
+}
+
+.gradient-background[data-theme='sunset'] {
+    background: radial-gradient(circle, #FEC494, #375A72);
+}
+
+html[data-theme='earth'] {
+    --main-color: #4E6C50;
+    /* --accent-color: rgba(170, 139, 86, 1); */
+    --accent-color: rgba(78, 108, 80, 1);
+    --accent-color-low-opacity: rgba(78, 108, 80, .7);
+    --text-color: #514729;
+    --background-color: #F0EBCE;
+    --menu-text-color: #F5F5DC;
+    --menu-background-color: rgba(67, 54, 35, 1);
+    --mini-nav-hover: rgba(254, 240, 205, 1);
+    --mini-nav-hover-border: none;
+    --mini-nav-border: 0.5px solid rgba(146, 152, 176, 0.4);
+    --title-font: 'Avenir';
+    --content-font: 'Merriweather';
+    --background-gradient: radial-gradient(circle, #F0EBCE, #4E6C50);
+}
+
+.gradient-background[data-theme='earth'] {
+    background: radial-gradient(circle, #F0EBCE, #4E6C50);
+}

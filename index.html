@@ -22,12 +22,24 @@
                 <div class="menu-items-container">
                     <a href="#">Themes</a>
                     <div class="theme-selectors-container">
-                        <div class="theme-selectors" id="light-theme-selector"></div>
-                        <div class="theme-selectors" id="dark-theme-selector"></div>
-                        <div class="theme-selectors" id="sunset-theme-selector"></div>
-                        <div class="theme-selectors" id="four-theme-selector"></div>
-                        <div class="theme-selectors" id="five-theme-selector"></div>
-                        <div class="theme-selectors" id="six-theme-selector"></div>
+                        <div class="theme-selectors-buttons">
+                            <button class="theme-selectors" id="light-theme-selector" onclick="setTheme('light')">
+                                <span class="btn-stage">+</span>
+                                <span class="btn-stage">Light</span>
+                            </button>
+                            <button class="theme-selectors" id="dark-theme-selector" onclick="setTheme('dark')">
+                                <span class="btn-stage">+</span>
+                                <div class="btn-stage">Dark</div>
+                            </button>
+                            <button class="theme-selectors" id="sunset-theme-selector" onclick="setTheme('sunset')">
+                                <span class="btn-stage">+</span>
+                                <div class="btn-stage">Sunset</div>
+                            </button>
+                            <button class="theme-selectors" id="earth-theme-selector" onclick="setTheme('earth')">
+                                <span class="btn-stage">+</span>
+                                <div class="btn-stage">Earth</div>
+                            </button>
+                        </div>  
                     </div>
                 </div>
                 <div class="export-items-container">
@@ -104,8 +116,8 @@
                     </button>
                 </div>
             </div>
-            <button class="" id="myBtn">Open Modal</button>
-            <button class="" id="myBtn2">Clear localStorage</button>
+            <button class="hide" id="myBtn">Open Modal</button>
+            <button class="hide" id="myBtn2">Clear localStorage</button>
             <div id="myModal" class="modal">
                 <div id="myModalContent" class="modal-content">
                     <div class="modal-header">

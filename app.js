@@ -14,9 +14,6 @@ const response = document.getElementById('response');
 const closeModalBtn = document.getElementsByClassName("close")[0];
 
 const gradientToFadeOut = document.getElementById('gradient-to-fade');
-const lightThemeSelector = document.getElementById('light-theme-selector')
-const darkThemeSelector = document.getElementById('dark-theme-selector')
-const sunsetThemeSelector = document.getElementById('sunset-theme-selector')
 const exportSwitch = document.getElementById('export-switch');
 
 const supportersArray = [];
@@ -34,6 +31,8 @@ const topLimit = 0;
 const bottomLimit = 300;
 
 // || Debugging buttons ||
+
+// Remove the 'hide' class in html to see the buttons
 
 const btn = document.getElementById("myBtn");
 const btnTwo = document.getElementById("myBtn2");
@@ -55,7 +54,16 @@ btnTwo.onclick = function() {
 // || supporters management ||
 
 // supporters factory function
-function createSupporter(name, baseState, wellDoneState, concernedState, calloutState) {
+function createSupporter(name, 
+                        baseState,
+                        wellDoneState,
+                        concernedState,
+                        calloutState,
+                        personalGreeting,
+                        personalCallOut,
+                        personalWellDone, 
+                        personalConcern, 
+                        personalNoTasks) {
     const supporter = {
         name: name,
         baseState: baseState,
@@ -63,22 +71,22 @@ function createSupporter(name, baseState, wellDoneState, concernedState, callout
         concernedState: concernedState,
         calloutState: calloutState,
         greet() {
-            return `Hello! My name is ${name}. Happy to meet you!`;
+            return `${personalGreeting}! My name is ${name}. Happy to meet you!`;
         },
         writeSomethingMessage() {
-            return `Hey! You have to enter a task first!`;
+            return `${personalCallOut}! You have to enter a task first!`;
         },
         wellDoneMessage() {
-            return `Well done! Keep going!`;
+            return `${personalWellDone}`;
         },
         concernedMessage () {
-            return `Is everything ok? You still have a lot to do. Maybe review your targets for today?`
+            return `${personalConcern} Maybe review your targets for today?`;
         },
         callOutMessage () {
-            return `Careful! Creating too many tasks can be stressful and set you up for failure!`
+            return `${personalCallOut}! Creating too many tasks can be stressful and set you up for failure!`;
         },
-        nothingToCopyMessage () {
-            return `There are no tasks to copy.`
+        nothingToCopyMessage() {
+            return `${personalNoTasks}`;
         }
     };
     supportersArray.push(supporter);
@@ -90,31 +98,56 @@ const kana = createSupporter('Kana',
                             'assets/kana/kana_base.png',
                             'assets/kana/kana_wellDone.png',
                             'assets/kana/kana_concerned.png',
-                            'assets/kana/kana_callOut.png');
+                            'assets/kana/kana_callOut.png',
+                            "Hey there",
+                            "Hold on",
+                            "Nice one! Keep it up.",
+                            "Are you doing ok?", 
+                            "There are not tasks to copy in here.");
 
 const junho = createSupporter('Junho',
                             'assets/junho/junho_base.png',
                             'assets/junho/junho_base.png',
                             'assets/junho/junho_base.png',
-                            'assets/junho/junho_base.png');
+                            'assets/junho/junho_base.png',
+                            "Hello",
+                            "Wait a minute",
+                            "You're doing great! Keep going.",
+                            "Looks like you're falling a bit behind.", 
+                            "Oh dear! There are no tasks to copy.");
 
 const noemie = createSupporter('Noemie',
                             'assets/noemie/noemie_base.png',
                             'assets/noemie/noemie_wellDone.png',
                             'assets/noemie/noemie_base.png',
-                            'assets/noemie/noemie_base.png');
+                            'assets/noemie/noemie_base.png',
+                            "Howdy",
+                            "Hold your horses",
+                            "That's some great task shooting! Continue.",
+                            "Haven't shot many tasks so far.",
+                            "Dang! No bullets to copy in this shooter!");
 
 const nicolau = createSupporter('Nicolau',
                             'assets/nicolau/nicolau_base.png',
                             'assets/nicolau/nicolau_base.png',
                             'assets/nicolau/nicolau_base.png',
-                            'assets/nicolau/nicolau_base.png');
+                            'assets/nicolau/nicolau_base.png',
+                            "Hey Champ",
+                            "Come on",
+                            "This is what I call getting it done! Onto the next one.",
+                            "You've got a lot left to do, champ.", 
+                            "No tasks to copy today champ!");
 
 const nova = createSupporter('Nova',
                             'assets/nova/nova_base.png',
                             'assets/nova/nova_base.png',
                             'assets/nova/nova_base.png',
-                            'assets/nova/nova_base.png');
+                            'assets/nova/nova_base.png',
+                            "Hey there",
+                            "Oh no, wait",
+                            "Wow, impressive! Let's continue.",
+                            "Are we sure about all the tasks left for today?",
+                            "Oh no! What happened? There are no tasks to copy.");
 
 // supporter selection
 function selectSupporter(supporterChosen) {
@@ -225,20 +258,23 @@ function loadTaskList() {
     }
 }
 
+function loadTheme() {
+    currentTheme = localStorage.getItem("theme");
+    document.documentElement.setAttribute('data-theme', currentTheme);
+}
+
+loadTheme();
+
 loadSupporterStatus();
-console.log(noSupporter);
-
+// console.log(noSupporter);
 loadSupporter()
-console.log(currentSupporter.name);
-
+// console.log(currentSupporter.name);
 loadTasks();
-console.log("List container:", listContainer.innerHTML);
-
+// console.log("List container:", listContainer.innerHTML);
 loadTaskList()
-console.log("Task List:", taskList);
-
+// console.log("Task List:", taskList);
 loadExportStatus()
-console.log(exportSwitch.checked);
+// console.log(exportSwitch.checked);
 
 // || modal management ||
 
@@ -298,45 +334,17 @@ closeModalBtn.onclick = function() {
 
 // || themes management ||
 
-lightThemeSelector.addEventListener('click', e => {
+
+function setTheme(chosenTheme) {
     gradientToFadeOut.setAttribute('data-theme', currentTheme);
     gradientToFadeOut.classList.add('gradient-background');
     gradientToFadeOut.style.opacity = 1.0;
-    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-theme', chosenTheme);
     gradientFadeOut();
-    localStorage.setItem("theme", 'light');
-    currentTheme = 'light';
+    localStorage.setItem("theme", chosenTheme);
+    currentTheme = chosenTheme;
     closeNav();
-})
-
-darkThemeSelector.addEventListener('click', e => {
-    gradientToFadeOut.setAttribute('data-theme', currentTheme);
-    gradientToFadeOut.classList.add('gradient-background');
-    gradientToFadeOut.style.opacity = 1.0;
-    document.documentElement.setAttribute('data-theme', 'dark');
-    gradientFadeOut();
-    localStorage.setItem("theme", 'dark');
-    currentTheme = 'dark';
-    closeNav();
-})
-
-sunsetThemeSelector.addEventListener('click', e => {
-    gradientToFadeOut.setAttribute('data-theme', currentTheme);
-    gradientToFadeOut.classList.add('gradient-background');
-    gradientToFadeOut.style.opacity = 1.0;
-    document.documentElement.setAttribute('data-theme', 'sunset');
-    gradientFadeOut()
-    localStorage.setItem("theme", 'sunset');
-    currentTheme = 'sunset';
-    closeNav();
-})
-
-function loadTheme() {
-    currentTheme = localStorage.getItem("theme");
-    document.documentElement.setAttribute('data-theme', currentTheme);
 }
-
-loadTheme();
 
 function gradientFadeOut() {
     gradientToFadeOut.style.opacity -= 0.1;
@@ -357,7 +365,7 @@ function addTask() {
                 closeModal();
             }, 2000);
         } else {
-            showAlert("You must enter somthing first.");
+            showAlert("You must enter something first.");
         }
     } else {
         let li = document.createElement("LI");
