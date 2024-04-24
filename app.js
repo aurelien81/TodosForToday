@@ -137,7 +137,7 @@ const kana = createSupporter('Kana',
 
 const junho = createSupporter('Junho',
                             'assets/junho/junho_base.png',
-                            'assets/junho/junho_base.png',
+                            'assets/junho/junho_wellDone.png',
                             'assets/junho/junho_base.png',
                             'assets/junho/junho_base.png',
                             "Hello",
@@ -159,18 +159,18 @@ const noemie = createSupporter('Noemie',
 
 const nicolau = createSupporter('Nicolau',
                             'assets/nicolau/nicolau_base.png',
-                            'assets/nicolau/nicolau_base.png',
+                            'assets/nicolau/nicolau_wellDone.png',
                             'assets/nicolau/nicolau_base.png',
                             'assets/nicolau/nicolau_base.png',
                             "Hey Champ",
                             "Come on",
-                            "This is what I call getting it done! Onto the next one.",
+                            "Fist bump! And onto the next one.",
                             "You've got a lot left to do, champ.", 
                             "No tasks to copy today champ!");
 
 const nova = createSupporter('Nova',
                             'assets/nova/nova_base.png',
-                            'assets/nova/nova_base.png',
+                            'assets/nova/nova_wellDone.png',
                             'assets/nova/nova_base.png',
                             'assets/nova/nova_base.png',
                             "Hey there",
@@ -528,7 +528,7 @@ function exportMarkdown() {
             }
         };
     } else {
-        for (i = 0; i < statusList.length; i += 1) {
+        for (i = 0; i < taskList.length; i += 1) {
             if (listItems[i].classList.contains("checked")) {
                 markdownArr[i] = '\nDONE ';
             } else {
