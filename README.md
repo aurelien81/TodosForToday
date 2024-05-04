@@ -6,6 +6,10 @@ This app was developed in Javascript, html and css, without the use of any libra
 
 Don't hesitate to **open discussions on this repository** if you have any comments.
 
+## How to use this app
+
+Since there is no currently deployed version of this project, the best way to use it is to clone the repository on your computer and open the index.html file in your browser, or through your code editor live server.
+
 ## Features
 
 - Todo list for a day, recommended for (but not limited to) 5 tasks a day.
