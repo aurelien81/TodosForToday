@@ -4,7 +4,7 @@ ToDos for ToDay is a very simple todo-app that runs in the browser. It focuses o
 
 This app was developed in Javascript, html and css, without the use of any libraries. It was created as part of my coding study. It is probably full of flaws, and that is the main reason for this publication, so that better coders than me can point out the flaws.
 
-Don't hesitate to open issues on this project if you have any comments.
+Don't hesitate to **open discussions on this repository** if you have any comments.
 
 ## Features
 
